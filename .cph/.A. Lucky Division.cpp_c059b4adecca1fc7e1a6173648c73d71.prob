@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"c:\\Codes\\Practice\\A. Lucky Division.cpp","tests":[{"id":1641729365065,"input":"47","output":"YES"},{"id":1641729371150,"input":"16","output":"YES"},{"id":1641729378538,"input":"78","output":"NO"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\A. Lucky Division.cpp","group":"local","local":true}
