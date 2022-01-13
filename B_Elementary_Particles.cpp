@@ -1,17 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 150555;
-vector<int> indices[N];
-vector<int> hsh(N, 0);
-
-void reset()
-{
-    for (int i = 0; i < N; i++)
-    {
-        indices[i].clear();
-        hsh[i] = 0;
-    }
-}
 
 int main()
 {
@@ -19,31 +7,21 @@ int main()
     cin >> t;
     while (t--)
     {
-        // reset();
         int n;
         cin >> n;
-        vector<int> arr(n);
-        bool flag = true;
+        int arr[n];
+
+        for (int i = 0; i < n; i++)
+            cin >> arr[i];
+
+        map<int, int> m;
+        int ans = -1;
         for (int i = 0; i < n; i++)
         {
-            cin >> arr[i];
-            // indices[arr[i]].push_back(i);
-            hsh[arr[i]]++;
-            if (hsh[arr[i]] >= 2)
-                flag = false;
+            if (m.count(arr[i]))
+                ans = max(ans, n - i + m[arr[i]]);
+            m[arr[i]] = i;
         }
-        if (flag)
-        {
-            cout << -1 << endl;
-            continue;
-        }
-        int ans = 0;
-
-        flag = false;
-
-        int n_copy = n;
-        
-
         cout << ans << endl;
     }
 
