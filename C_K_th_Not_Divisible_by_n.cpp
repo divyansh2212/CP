@@ -13,16 +13,19 @@ int main()
             cout << k << endl;
         else
         {
-            int xtra = 0;
-            if (k / n > 9)
+            int to_add = k / n;
+            int new_to_add;
+            while (1)
             {
-                xtra = (k / n) % 10;
+                new_to_add = (to_add + k) / n;
+                if (to_add == new_to_add)
+                    break;
+                to_add = new_to_add;
             }
-            k += (k / n);
-            k += xtra;
-            if (k % n == 0)
-                k++;
-            cout << k << endl;
+            if ((k + new_to_add) % n == 0)
+                cout << k + new_to_add + 1 << endl;
+            else
+                cout << k + new_to_add << endl;
         }
     }
 
