@@ -9,55 +9,27 @@ int main()
     {
         int n;
         cin >> n;
-        // int a[n];
-        vector<int> a(n);
-        set<int> s;
+        int arr[n];
+
         for (int i = 0; i < n; i++)
-        {
-            cin >> a[i];
-            s.insert(a[i]);
-        }
-        // int b[n] = a;
-        vector<int> b = a;
-        set<pair<int, int>> nos;
-        int initia = s.size();
-        if (s.size() == 1)
-        {
-            cout << 0 << endl;
-            continue;
-        }
-        // if (s.size() == 2)
-        // {
-        //     cout << 1 << endl;
-        //     continue;
-        // }
-        int minm = INT_MAX;
+            cin >> arr[i];
 
-        bool flag = false;
+        int lastele = arr[n - 1], cnt = 0, i = n - 1, steps = 0;
 
-        for (int l = 0; l < n; l++)
+        while (i >= 0)
         {
-            for (int k = 1; l + (2 * k) - 1 < n; k++)
+            while (arr[i] == lastele)
             {
-                for (int i = 0; i < k; i++)
-                {
-                    if (a[l + k + i] != a[l + i])
-                    {
-                        s.erase(a[l + i]);
-                        a[l + i] = a[l + k + i];
-                        nos.insert({l, k});
-                        if (s.size() == 1)
-                        {
-                            int n = nos.size();
-                            minm = min(minm, n);
-                            nos.clear();
-                        }
-                    }
-                }
+                i--, cnt++;
             }
+            if (i < 0)
+                break;
+            steps++;
+            i = i - cnt;
+            cnt = 2 * cnt;
         }
 
-        cout << minm << endl;
+        cout << steps << endl;
     }
 
     return 0;
