@@ -1,0 +1,1 @@
+{"name":"Local: Prefix Zeros","url":"c:\\Codes\\Practice\\Prefix Zeros.cpp","tests":[{"id":1643475309294,"input":"6\n3 5\n380\n3 9\n380\n4 2\n0123\n5 13\n78712\n6 10\n051827\n8 25\n37159725\n","output":"0\n3\n1\n3\n2\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\Prefix Zeros.cpp","group":"local","local":true}
