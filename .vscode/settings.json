@@ -9,5 +9,6 @@
         "xutility": "cpp",
         "iterator": "cpp",
         "cstdlib": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
