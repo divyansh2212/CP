@@ -1,0 +1,1 @@
+{"name":"Local: EVM Hacking","url":"c:\\Codes\\Practice\\EVM Hacking.cpp","tests":[{"id":1643813481865,"input":"3\n1 1 1 3 3 3\n49 1 49 50 100 50\n0 0 0 1 1 1\n","output":"YES\nYES\nNO\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\EVM Hacking.cpp","group":"local","local":true}

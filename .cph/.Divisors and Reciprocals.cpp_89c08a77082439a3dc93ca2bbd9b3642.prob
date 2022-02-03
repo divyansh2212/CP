@@ -1,0 +1,1 @@
+{"name":"Local: Divisors and Reciprocals","url":"c:\\Codes\\Practice\\Divisors and Reciprocals.cpp","tests":[{"id":1643896640831,"input":"2\n4 4 3\n4 1 1","output":"3\n-1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\Divisors and Reciprocals.cpp","group":"local","local":true}
