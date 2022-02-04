@@ -8,7 +8,9 @@
         "type_traits": "cpp",
         "xutility": "cpp",
         "iterator": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "limits": "cpp",
+        "utility": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

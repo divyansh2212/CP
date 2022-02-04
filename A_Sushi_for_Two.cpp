@@ -5,28 +5,29 @@ int main()
 {
     int n;
     cin >> n;
-    vector<int> val(n);
+    vector<int> arr(n);
 
     for (int i = 0; i < n; i++)
-        cin >> val[i];
+        cin >> arr[i];
 
-    int ans = 0, val1 = 1, val2 = 1;
-    bool flag = false;
-    for (int i = 1; i < n; i++)
+    vector<int> v;
+    int i = 1, cnt = 1;
+    while (i < n)
     {
-        if (val[i] == val[i - 1] && flag == false)
-        {
-            val1++;
-        }
-        else if (val[i] == val[i - 1] && flag == true)
-        {
-            val2++;
-        }
+        if (arr[i] == arr[i - 1])
+            cnt++;
         else
         {
-            flag = !flag;
+            v.push_back(cnt);
+            cnt = 1;
         }
+        i++;
     }
+    v.push_back(cnt);
+    int ans = 0;
+    for (int i = 0; i < v.size() - 1; i++)
+        ans = max(ans, min(v[i], v[i + 1]));
 
+    cout << 2 * ans;
     return 0;
 }
