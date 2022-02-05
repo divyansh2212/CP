@@ -22,6 +22,6 @@ int main()
     if (n % (a + b + c) == 0)
         ans = max(ans, n / (a + b + c));
     
-    cout << ans;
+    cout << ans << endl;
     return 0;
 }
