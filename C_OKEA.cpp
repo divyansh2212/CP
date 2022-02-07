@@ -7,33 +7,44 @@ int main()
     cin >> t;
     while (t--)
     {
-        long long n, k, i, j;
+        int n, k;
         cin >> n >> k;
-
-        if (n % 2 == 0 || k == 1)
+        if (k == 1)
         {
             cout << "YES\n";
-            for (int i = 1, j = 1; i <= n * k; i += 2, j++)
+            for (int i = 1; i <= n; i++)
+                cout << i << endl;
+        }
+        else if (n % 2)
+            cout << "NO\n";
+        else
+        {
+            cout << "YES\n";
+            for (int i = 1; i <= n * k; i += 2)
             {
-                cout << i << " ";
-                if (k == j)
+                int cnt = 0;
+                while (cnt < k)
                 {
-                    cout << endl;
-                    j = 0;
+                    cout << i << " ";
+                    cnt++;
+                    i += 2;
                 }
+                i -= 2;
+                cout << endl;
             }
-            for (int i = 2, j = 1; i <= n * k; i += 2, j++)
+            for (int i = 2; i <= n * k; i += 2)
             {
-                cout << i << " ";
-                if (k == j)
+                int cnt = 0;
+                while (cnt < k)
                 {
-                    cout << endl;
-                    j = 0;
+                    cout << i << " ";
+                    cnt++;
+                    i += 2;
                 }
+                i -= 2;
+                cout << endl;
             }
         }
-        else
-            cout << "NO\n";
     }
 
     return 0;

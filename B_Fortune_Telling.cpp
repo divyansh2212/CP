@@ -1,14 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool helper(vector<int> &arr, long long idx, long long curr, long long y)
-{
-    if (idx == arr.size())
-        return curr == y;
-
-    return helper(arr, idx + 1, curr + arr[idx], y) || helper(arr, idx + 1, curr ^ arr[idx], y);
-}
-
 int main()
 {
     long long t;
@@ -18,16 +10,28 @@ int main()
         long long n, x, y;
         cin >> n >> x >> y;
 
-        vector<int> arr(n);
-        for (long long i = 0; i < n; i++)
-            cin >> arr[i];
+        long long total_sum = x;
+        for (int i = 0; i < n; i++)
+        {
+            long long num;
+            cin >> num;
+            total_sum = total_sum ^ num;
+        }
 
-        bool alice = helper(arr, 0, x, y);
-
-        if (alice)
-            cout << "Alice\n";
+        if (y % 2 == 0)
+        {
+            if (total_sum % 2 == 0)
+                cout << "Alice\n";
+            else
+                cout << "Bob\n";
+        }
         else
-            cout << "Bob\n";
+        {
+            if (total_sum % 2)
+                cout << "Alice\n";
+            else
+                cout << "Bob\n";
+        }
     }
 
     return 0;
