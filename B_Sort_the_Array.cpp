@@ -1,47 +1,58 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool helper(vector<int> arr, vector<int> sorted, int i, int j)
+bool isEqual(vector<int> &arr1, vector<int> &arr2)
 {
-    reverse(arr.begin() + i, arr.begin() + j + 1);
-
-    return arr == sorted;
+    bool flag = true;
+    for (int i = 0; i < arr1.size(); i++)
+        if (arr1[i] != arr2[i])
+            flag = false;
+    return flag;
 }
 
 int main()
 {
     int n;
     cin >> n;
-
-    vector<int> sorted_arr(n);
+    vector<int> arr(n);
     for (int i = 0; i < n; i++)
-        cin >> sorted_arr[i];
+        cin >> arr[i];
 
-    vector<int> original_arr = sorted_arr;
-    sort(sorted_arr.begin(), sorted_arr.end());
+    vector<int> reversedarr = arr;
+    vector<int> sortedarr = arr;
+    reverse(reversedarr.begin(), reversedarr.end());
+    sort(sortedarr.begin(), sortedarr.end());
 
-    int idx1 = 0, idx2 = 0;
-    bool flag = false;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = i; j < n; j++)
-        {
-            if (helper(original_arr, sorted_arr, i, j))
-            {
-                idx1 = i + 1, idx2 = j + 1;
-                flag = true;
-                break;
-            }
-        }
-        if (flag)
-            break;
-    }
-    if (flag)
+    if (isEqual(sortedarr, reversedarr))
     {
         cout << "yes\n";
-        cout << idx1 << " " << idx2 << endl;
+        cout << "1 " << sortedarr.size();
+        return 0;
     }
-    else
-        cout << "no";
+    if (isEqual(sortedarr, arr))
+    {
+        cout << "yes\n";
+        cout << "1 1";
+        return 0;
+    }
+
+    int idx1 = -1, idx2 = -1;
+    for (int i = 0; i < n - 1; i++) 
+    {
+        if (arr[i] > arr[i + 1])
+        {
+            if (idx1 == -1)
+                idx1 = i;
+            idx2 = i + 1;
+        }
+    }
+    reverse(arr.begin() + idx1, arr.begin() + idx2 + 1);
+    if (isEqual(arr, sortedarr))
+    {
+        cout << "yes\n";
+        cout << idx1 + 1 << " " << idx2 + 1;
+        return 0;
+    }
+    cout << "no";
     return 0;
 }
