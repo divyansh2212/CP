@@ -10,47 +10,27 @@ int main()
         int n;
         cin >> n;
 
-        vector<pair<int, int>> elements(n);
+        vector<int> arr(n);
         for (int i = 0; i < n; i++)
-            cin >> elements[i].first;
+            cin >> arr[i];
 
-        for (int i = 0; i < n; i++)
-            cin >> elements[i].second;
-
-        bool flag = true;
+        bool is0 = false, is1 = false;
         for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n; j++)
-            {
-                if (elements[i].first > elements[j].first && i < j)
-                {
-                    if (elements[i].second != elements[j].second)
-                    {
-                        swap(elements[i], elements[j]);
-                        j = 0;
-                    }
-                }
-                else if (elements[i].first < elements[j].first && i > j)
-                    if (elements[i].second != elements[j].second)
-                    {
-                        swap(elements[i], elements[j]);
-                        j = 0;
-                    }
-            }
+            int x;
+            cin >> x;
+            if (x)
+                is1 = true;
+            else
+                is0 = true;
         }
 
-        for (int i = 0; i < n - 1; i++)
-        {
-            if (elements[i + 1].first < elements[i].first)
-            {
-                if (elements[i + 1].second != elements[i].second)
-                    swap(elements[i], elements[i + 1]);
-                else
-                    flag = false;
-            }
-        }
+        vector<int> sorted = arr;
+        sort(sorted.begin(), sorted.end());
 
-        if (flag)
+        if (sorted == arr)
+            cout << "Yes\n";
+        else if (is0 && is1)
             cout << "Yes\n";
         else
             cout << "No\n";
