@@ -1,26 +1,50 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 
-int func(vector<int> &nums, vector<bool> &visited, vector<int> &dp, int idx)
+class Solution
 {
-    idx = idx % nums.size();
-    if (visited[idx] == true)
-        return 0;
-    if (dp[idx] != -1)
-        return dp[idx];
-    visited[idx] = true;
-    int total_money = func(nums, visited, dp, idx + 2) + nums[idx];
-    visited[idx] = false;
-    total_money = max(total_money, func(nums, visited, dp, idx + 1));
+public:
+    int rob(vector<int> &nums)
+    {
+        int n = nums.size();
+        vector<int> nums1, nums2;
+        for (int i = 0; i < n; i++)
+        {
+            if (i != 0)
+                nums1.push_back(nums[i]);
+            if (i != n - 1)
+                nums2.push_back(nums[i]);
+        }
 
-    return dp[idx] = total_money;
-}
+        vector<int> dp1(n, -1);
+        dp1[0] = nums1[0];
+        for (int i = 1; i < nums1.size(); i++)
+        {
+            int take = nums1[i];
+            if (i > 1)
+                take += dp1[i - 2];
 
-int rob(vector<int> &nums)
-{
-    int n = nums.size();
-    vector<bool> visited(n, false);
-    vector<int> dp(n + 1, -1);
+            int notTake = dp1[i - 1];
 
-    cout << func(nums, visited, dp, 0);
-}
+            dp1[i] = max(take, notTake);
+        }
+        int ans1 = dp1[nums1.size() - 1];
+
+        vector<int> dp2(n, -1);
+        dp2[0] = nums2[0];
+        for (int i = 1; i < nums2.size(); i++)
+        {
+            int take = nums[i];
+            if (i > 1)
+                take += dp[i - 2];
+
+            int notTake = dp2[i - 1];
+
+            dp2[i] = max(take, notTake);
+        }
+        int ans2 = dp[nums2.size() - 1];
+
+        return max(ans1, ans2);
+    }
+};
