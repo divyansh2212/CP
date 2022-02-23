@@ -2,22 +2,6 @@
 using namespace std;
 #define ll long long
 
-int maxSubArraySum(vector<int> &arr)
-{
-    int max_so_far = INT_MIN, max_ending_here = 0;
-
-    for (int i = 0; i < arr.size; i++)
-    {
-        max_ending_here = max_ending_here + a[i];
-        if (max_so_far < max_ending_here)
-            max_so_far = max_ending_here;
-
-        if (max_ending_here < 0)
-            max_ending_here = 0;
-    }
-    return max(0, max_so_far);
-}
-
 int main()
 {
     int t;
@@ -26,27 +10,32 @@ int main()
     {
         int n, x;
         cin >> n >> x;
+
         vector<int> arr(n);
-        int mx = INT_MIN, idx;
+        for (int i = 0; i < n; i++)
+            cin >> arr[i];
+
+        vector<int> sub_arrays(n + 1, INT_MIN);
+        sub_arrays[0] = 0;
+
         for (int i = 0; i < n; i++)
         {
-            cin >> arr[i];
-            if (arr[i] > mx)
-                mx = arr[i], idx = i;
-        }
-
-        vector<int> ans;
-        int f = maxSubArraySum(arr);
-        ans.push_back(f);
-        for (int i = 1; i <= n; i++)
-        {
-            vector<int> c_arr = arr;
-            if (i == 1)
+            int temp = 0;
+            for (int j = i; j < n; j++)
             {
-                c_arr[idx] += x;
-                ans.push_back(maxSubArraySum(c_arr));
+                temp += arr[j];
+                sub_arrays[j - i + 1] = max(sub_arrays[j - i + 1], temp);
             }
         }
+
+        for (int k = 0; k < n + 1; k++)
+        {
+            int temp = 0;
+            for (int i = 0; i < n + 1; i++)
+                temp = max(temp, min(k, i) * x + sub_arrays[i]);
+            cout << temp << " ";
+        }
+        cout << endl;
     }
     return 0;
 }
