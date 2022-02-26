@@ -8,53 +8,34 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
+        int n;
         cin >> n;
 
-        vector<ll> arr(n);
+        vector<int> arr(n);
         for (int i = 0; i < n; i++)
             cin >> arr[i];
 
-        vector<bool> flags(n, false);
-        for (int i = 1; i < n; i++)
+        if (n == 3)
+            arr[0] = 2 * arr[1], arr[2] = 2 * arr[1];
+    
+        else
         {
-            if (__gcd(arr[i], arr[i - 1]) == 1)
-                flags[i] = true;
-        }
+            arr[1] = 2 * arr[0];
 
-        ll moves = (2 * n) / 3;
+            int i = 3;
+            while (i + 1 < n)
+            {
+                arr[i - 1] = 2 * arr[i];
+                arr[i + 1] = 2 * arr[i];
+                i = i + 3;
+            }
 
-        ll i = 0;
-        while (i < n)
-        {
-            if (i + 2 < n)
-            {
-                if (flags[i] && flags[i + 1] && flags[i + 2])
-                {
-                    if (arr[i] * arr[i + 2] <= 1e6)
-                        arr[i + 1] = arr[i] * arr[i + 2];
-                    flags[i + 1] = false, flags[i + 2] = false;
-                    i += 3;
-                }
-            }
-            else if (flags[i])
-            {
-                arr[i] = arr[i - 1], flags[i] = false;
-                if (i + 1 < n)
-                    if (__gcd(arr[i], arr[i + 1]) > 1)
-                        flags[i + 1] = false;
-                i += 2;
-            }
-            else
-                i++;
+            if (__gcd(arr[n - 1], arr[n - 2]) == 1)
+                arr[n - 2] = 2 * arr[n - 1];
         }
 
         for (int i = 0; i < n; i++)
-        {
-            if (flags[i] && i > 0)
-                arr[i] = arr[i - 1];
             cout << arr[i] << " ";
-        }
         cout << endl;
     }
     return 0;

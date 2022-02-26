@@ -10,22 +10,19 @@ int main()
     {
         string s;
         cin >> s;
+        string r = s;
+        reverse(r.begin(), r.end());
 
-        string reqd = s;
-        reverse(reqd.begin(), reqd.end());
-
-        int i = 0, ans = 0;
-        int n = s.length();
-        while (i < n)
+        int i = 0, j = 0, ans = 0;
+        while (i < s.length())
         {
-            if (s[i] != reqd[i])
-                ans++;
-            i++;
+            if (r[j] == s[i])
+                i++, j++;
+
+            else
+                ans++, i++;
         }
-        if (ans == n)
-            cout << n - 1 << endl;
-        else
-            cout << ans + 1 << endl;
+        cout << ans << endl;
     }
     return 0;
 }
