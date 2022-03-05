@@ -2,57 +2,48 @@
 using namespace std;
 #define ll long long
 
+ll cnt(ll n)
+{
+    ll ans = 0;
+    while (n)
+    {
+        if (n % 2)
+            ans++;
+        n /= 2;
+    }
+    return ans;
+}
+
 int main()
 {
-    unordered_map<ll, int> is_powerful;
-
-    ll var = 1;
-    for (int i = 1; i < 15; i++)
-    {
-        var *= i;
-        is_powerful[var] = 1;
-    }
+    ll fact[14];
+    fact[0] = 1;
+    for (ll i = 1; i < 14; i++)
+        fact[i] = i * fact[i - 1];
 
     int t;
     cin >> t;
     while (t--)
     {
-        ll n;
+        int n;
         cin >> n;
+        ll ans = INT_MAX;
 
-        if (is_powerful[n] == 1 || (n & (n - 1LL)) == 0)
-            cout << 1 << endl;
-        else
+        for (ll i = 0; i < (1 << 15); i++)
         {
-            ll ans1 = 1;
-            ll n_copy = n;
-            while (n)
+            ll sum = 0;
+            for (ll j = 0; j < 15; j++)
             {
-                ll bits = log2(n);
-                ans1++;
-                n -= (1LL << bits);
-                if (is_powerful[n] == 1 || (n & (n - 1LL)) == 0)
-                    break;
+                if (i & (1 << j))
+                    sum += fact[j];
             }
-
-            ll ans2 = 1;
-            while (n_copy)
-            {
-                for (ll i = n_copy - 1; i >= 2; i--)
-                {
-                    if (is_powerful[i] == 1 || (i & (i - 1LL)) == 0)
-                    {
-                        n_copy -= i;
-                        ans2++;
-                        break;
-                    }
-                }
-                if (is_powerful[n_copy] == 1 || (n_copy & (n_copy - 1LL)) == 0)
-                    break;
-            }
-
-            cout << min(ans1, ans2) << endl;
+            if (sum > n)
+                break;
+            ll temp = cnt(i);
+            temp += cnt(n - sum);
+            ans = min(ans, temp);
         }
+        cout<<ans<<endl;
     }
     return 0;
 }
