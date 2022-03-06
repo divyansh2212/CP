@@ -12,7 +12,9 @@
         "limits": "cpp",
         "utility": "cpp",
         "vector": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "deque": "cpp",
+        "string": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
