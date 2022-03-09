@@ -14,7 +14,8 @@
         "vector": "cpp",
         "iomanip": "cpp",
         "deque": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
