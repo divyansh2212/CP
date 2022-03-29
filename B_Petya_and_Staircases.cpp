@@ -9,22 +9,26 @@ int main()
     int n, m;
     cin >> n >> m;
 
-    vector<int> dirty(m, 0);
+    vector<ll> dirty_stairs(m);
+    bool flag = true;
     for (int i = 0; i < m; i++)
-        cin >> dirty[i];
+    {
+        cin >> dirty_stairs[i];
+        if (dirty_stairs[i] == 1 || dirty_stairs[i] == n)
+            flag = false;
+    }
 
-    sort(dirty.begin(), dirty.end());
+    sort(dirty_stairs.begin(), dirty_stairs.end());
 
-    bool flag = false;
     for (int i = 0; i < m - 2; i++)
     {
-        if (dirty[i + 1] - dirty[i] == 1 && dirty[i + 2] - dirty[i + 1] == 1)
-            flag = true;
+        if (dirty_stairs[i + 1] - dirty_stairs[i] == 1 && dirty_stairs[i + 2] - dirty_stairs[i + 1] == 1)
+            flag = false;
     }
     if (flag)
-        cout << "NO\n";
-    else
         cout << "YES";
+    else
+        cout << "NO";
 
     return 0;
 }
