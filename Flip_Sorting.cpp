@@ -6,97 +6,37 @@ using namespace std;
 
 int main()
 {
-    ll t;
+    int t;
     cin >> t;
-
     while (t--)
     {
-        ll n;
+        int n;
         cin >> n;
-
         string s;
         cin >> s;
 
-        ll ans = 0;
-        vector<bool> flag(1001, false);
-        vector<pair<ll, ll>> ansp;
-        while (1)
-        {
-            if (is_sorted(s.begin(), s.end()))
-                break;
-            ans++;
-            ll fit = -1;
-            for (ll i = 0; i < s.length(); i++)
-            {
-                if (s[i] == '1')
-                {
-                    fit = i;
-                    break;
-                }
-            }
-            ll sit = fit;
-            for (ll i = fit + 1; i < s.length(); i++)
-            {
-                if (s[i] == '1')
-                    sit = i;
-                else
-                    break;
-            }
+        int ans = 0;
+        vector<pair<int, int>> anspairs;
 
-            if (flag[sit - fit + 1] == false)
+        for (int i = 0; i < n; i++)
+        {
+            if (s[i] == '1')
             {
-                ansp.push_back({fit + 1, sit - fit + 1});
-                for (ll i = fit; i < sit + 1; i++)
-                    s[i] = '0';
-                flag[sit - fit + 1] = true;
-            }
-            else
-            {
-                int x = 0;
-                while (1)
+                ans++;
+                anspairs.push_back({i + 1, n - i});
+                for (int j = i; j < n; j++)
                 {
-                    x++;
-                    bool done = false;
-                    if (sit + x < n)
-                    {
-                        if (flag[(sit + x) - fit + 1] == false)
-                        {
-                            ansp.push_back({fit + 1, (sit + x) - fit + 1});
-                            for (ll i = fit; i <= sit + x; i++)
-                            {
-                                if (s[i] == '1')
-                                    s[i] == '0';
-                                else
-                                    s[i] = '1';
-                            }
-                            done = true;
-                            flag[(sit + x) - fit + 1] = true;
-                        }
-                    }
-                    if (done)
-                        break;
-                    if (sit - x >= fit)
-                    {
-                        if (flag[(sit - x) - fit + 1] == false)
-                        {
-                            ansp.push_back({fit + 1, (sit - x) - fit + 1});
-                            for (ll i = fit; i <= sit - x; i++)
-                            {
-                                if (s[i] == '1')
-                                    s[i] == '0';
-                                else
-                                    s[i] = '1';
-                            }
-                            done = true;
-                            flag[(sit - x) - fit + 1] = true;
-                        }
-                    }
+                    if (s[j] == '1')
+                        s[j] = '0';
+                    else
+                        s[j] = '1';
                 }
             }
         }
+
         cout << ans << endl;
-        for (ll i = 0; i < ansp.size(); i++)
-            cout << ansp[i].first << " " << ansp[i].second << endl;
-    }
+        for (int i = 0; i < anspairs.size(); i++)
+            cout << anspairs[i].first << " " << anspairs[i].second << endl;
+        }
     return 0;
 }
