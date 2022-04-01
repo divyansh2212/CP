@@ -1,71 +1,49 @@
-    // Jai Shree Babosa!
+// Jai Shree Babosa!
 
-    #include <bits/stdc++.h>
-    using namespace std;
-    #define ll long long
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
 
-    int main()
-    {
-        int t;
-        cin >> t;
-        while (t--)
-        {
-            string s;
-            cin >> s;
-
-            vector<int> hsh(26, 0);
-            for (int i = 0; i < s.length(); i++)
-                hsh[s[i] - 'a']++;
-
-            string fnlstr = "";
-            int ans = 0;
-            for (int i = 0; i < s.length(); i++)
-            {
-                if (hsh[s[i] - 'a'] == 1)
-                    {hsh[s[i] - 'a']--; ans++;}
-                else
-                    fnlstr.push_back(s[i]);
-            }
-
-            int i = 0;
-            while (i < fnlstr.length() - 1)
-            {
-                if (fnlstr[i] == fnlstr[i + 1])
-                {
-                    fnlstr[i] = '0', fnlstr[i + 1] = '0';
-                    i += 2;
-                }
-                else
-                    i++;
-            }
-
-            i = 0;
-            while (i < fnlstr.length())
-            {
-                if (fnlstr[i] == '0')
-                {
-                    i++;
-                    continue;
-                }
-                bool flag = false;
-                for (int j = i + 1; j < fnlstr.length(); j++)
-                {
-                    if (fnlstr[j] == '0')
-                    {
-                        ans += j - i;
-                        i = j + 1;
-                        break;
-                    }
-                    if (fnlstr[j] == fnlstr[i])
-                    {
-                        ans += j - i - 1;
-                        i = j + 1;
-                        fnlstr[j] = '0', fnlstr[i] = '0';
-                        break;
-                    }
-                }
-            }
-            cout << ans << endl;
-        }
+int deletions(string &s, int idx, vector<int> &dp)
+{
+    if (idx < 0)
         return 0;
+    if (idx == 0)
+        return 1;
+    if (dp[idx] != -1)
+        return dp[idx];
+
+    if (s[idx] == s[idx - 1])
+        return dp[idx] = deletions(s, idx - 2, dp);
+    else
+    {
+        int j;
+        for (j = idx - 1; j >= 0; j--)
+            if (s[idx] == s[j])
+                break;
+        if (j == -1)
+            return dp[idx] = 1 + deletions(s, idx - 1, dp);
+        else
+        {
+            int case1 = 1 + deletions(s, idx - 1, dp);
+            int case2 = idx - j - 1 + deletions(s, j - 1, dp);
+            return dp[idx] = min(case1, case2);
+        }
     }
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        string s;
+        cin >> s;
+
+        int n = s.length();
+        vector<int> dp(n, -1);
+        cout << deletions(s, n - 1, dp) << endl;
+    }
+    return 0;
+}
