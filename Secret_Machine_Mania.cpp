@@ -4,37 +4,49 @@
 using namespace std;
 #define ll long long
 
+ll gcd(ll a, ll b)
+{
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
+
 int main()
 {
-    int t;
+    ll t;
     cin >> t;
     while (t--)
     {
         ll x, c;
         cin >> x >> c;
 
-        if (x == 1)
+        if (c == 1)
         {
-            cout << x << endl;
+            cout << 1 << endl;
             continue;
         }
 
-        ll curr = 1;
-        while (1)
+        vector<ll> factors;
+        for (ll i = 1; i <= sqrt(x); i++)
         {
-            ll currno = pow(curr, c);
-            if ((currno / __gcd(currno, x)) > x)
-                break;
-
-            if (x > (currno / __gcd(currno, x)) * (x / __gcd(currno, x)))
+            if (x % i == 0)
             {
-                x = min(x, (currno / __gcd(currno, x)) * (x / __gcd(currno, x)));
-                curr = 0;
+                factors.push_back(i);
+                if (x / i != i)
+                    factors.push_back(x / i);
             }
-
-            curr++;
         }
-        cout << x << endl;
+
+        ll ans = x;
+
+        for (ll f : factors)
+        {
+            ll b = pow(f, c);
+            ans = min(ans, lcm(b, x) / gcd(b, x));
+        }
+
+        cout << ans << endl;
     }
     return 0;
 }
