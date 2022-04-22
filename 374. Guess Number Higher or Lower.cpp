@@ -1,7 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define ll long long
-
 /**
  * Forward declaration of guess API.
  * @param  num   your guess
@@ -16,19 +12,18 @@ class Solution
 public:
     int guessNumber(int n)
     {
-        ll lo = 1, hi = n, mid;
+        int hi = n, lo = 1, mid;
 
-        while (hi - lo > 1)
+        while (lo <= hi)
         {
-            mid = (hi + lo) / 2;
+            mid = lo + (hi - lo) / 2;
+            if (guess(mid) == 0)
+                return mid;
             if (guess(mid) == -1)
                 hi = mid - 1;
             else
-                lo = mid;
+                lo = mid + 1;
         }
-        if(guess(hi) == 0) return hi;
-        if(guess(lo) == 0) return lo;
-        
-        return n;
+        return -1;
     }
 };
