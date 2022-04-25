@@ -1,3 +1,5 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -9,19 +11,15 @@ public:
     {
         int lo = 0, hi = letters.size() - 1, mid;
 
-        while (hi - lo > 1)
+        while (lo <= hi)
         {
-            mid = (hi + lo) / 2;
-            if (letters[mid] < target)
+            mid = lo + (hi - lo) / 2;
+            if (letters[mid] <= target)
                 lo = mid + 1;
             else
-                hi = mid;
+                hi = mid - 1;
         }
 
-        if (letters[lo] > target)
-            return letters[lo];
-        if (letters[hi] > target)
-            return letters[hi];
-        return target;
+        return letters[lo % letters.size()];
     }
 };
