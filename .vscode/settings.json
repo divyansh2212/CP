@@ -23,7 +23,8 @@
         "unordered_set": "cpp",
         "string_view": "cpp",
         "regex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "ratio": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
