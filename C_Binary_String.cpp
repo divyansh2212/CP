@@ -13,10 +13,7 @@ int main()
         string s;
         cin >> s;
 
-        ll cost = INT_MAX;
-
-        ll idx1 = 0, idx2 = s.length() - 1;
-
+        int zeroes = 0;
         
 
     }
