@@ -10,16 +10,20 @@ int main()
     cin >> s;
 
     vector<int> hsh(26, 0);
-    for (int i = 1; i < s.length() - 1; i += 3)
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == ' ' || s[i] == '{' || s[i] == '}' || s[i] == ',')
+            continue;
         hsh[s[i] - 'a']++;
+    }
 
     int ans = 0;
     for (int i = 0; i < 26; i++)
-    {
         if (hsh[i])
             ans++;
-    }
 
-    cout << ans << endl;
+    cout << ans;
+
     return 0;
 }
