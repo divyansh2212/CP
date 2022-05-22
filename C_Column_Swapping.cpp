@@ -1,9 +1,9 @@
 // Jai Shree Babosa!
- 
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
- 
+
 int main()
 {
     int t;
@@ -12,51 +12,49 @@ int main()
     {
         ll n, m;
         cin >> n >> m;
- 
+
         vector<vector<int>> arr(n, vector<int>(m));
         bool flag = true;
-        unordered_set<int> s;
- 
+        int small = INT_MAX, big = INT_MIN, total_cnt = INT_MIN;
+
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
-            {
                 cin >> arr[i][j];
-                if (j > 0)
+
+            vector<int> c_arr_i = arr[i];
+            sort(c_arr_i.begin(), c_arr_i.end());
+            int cnt = 0;
+            for (int j = 0; j < arr[i].size(); j++)
+            {
+                if (arr[i][j] != c_arr_i[j])
                 {
-                    if (arr[i][j - 1] > arr[i][j])
-                    {
-                        flag = false;
-                        s.insert(j - 1);
-                        s.insert(j);
-                    }
+                    cnt++;
+                    small = min(small, j);
+                    big = max(big, j);
                 }
             }
+            total_cnt = max(total_cnt, cnt);
+            if (cnt)
+                flag = false;
         }
- 
+
         if (m == 1 || flag)
         {
             cout << 1 << " " << 1 << endl;
             continue;
         }
- 
+
         flag = true;
 
-        int big = INT_MIN, small = INT_MAX;
-        for (auto &it : s)
-        {
-            big = max(big, it);
-            small = min(small, it);
-        }
- 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < arr.size(); i++)
         {
             swap(arr[i][small], arr[i][big]);
             if (!is_sorted(arr[i].begin(), arr[i].end()))
                 flag = false;
         }
- 
-        if (flag == false)
+
+        if (flag == false || total_cnt > 2)
             cout << -1 << endl;
         else
             cout << small + 1 << " " << big + 1 << endl;
