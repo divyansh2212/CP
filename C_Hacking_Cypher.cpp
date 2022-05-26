@@ -4,6 +4,24 @@
 using namespace std;
 #define ll long long
 
+ll power(ll a, ll b, ll mod)
+{
+    ll ans = 1;
+    while (b)
+    {
+        if (b & 1)
+        {
+            ans *= a;
+            ans %= mod;
+        }
+
+        a *= a;
+        a = a % mod;
+        b = (b >> 1);
+    }
+    return ans;
+}
+
 int main()
 {
     string s;
@@ -12,9 +30,8 @@ int main()
     ll a, b;
     cin >> a >> b;
 
-    bool flag1 = false, flag2 = false;
-    string dividend1 = "", dividend2 = "";
-    vector<ll> indices;
+    string dividend1 = "";
+    vector<ll> indices(s.length(), -1);
     ll idx = 1e9;
 
     for (ll i = 0; i < s.length() - 1; i++)
@@ -27,10 +44,9 @@ int main()
             ll rem = dividend % a;
             if (rem == 0)
             {
-                ll real_idx = i;
                 dividend1 = "";
                 idx = i;
-                while (i < s.length())
+                while (i < s.length() - 1)
                 {
                     i++;
                     if (i < s.length() && s[i] == '0')
@@ -38,10 +54,8 @@ int main()
                     else
                         break;
                 }
-                if (i != real_idx)
-                    i--;
-                indices.push_back(idx);
-                flag1 = true;
+                i = idx;
+                indices[idx] = 0;
             }
             else
                 dividend1 = to_string(rem);
@@ -53,56 +67,33 @@ int main()
 
     else
     {
-        idx = 0;
-        for (ll ind = 0; ind < indices.size(); ind++)
-        {
-            if (flag2)
-                break;
-            dividend2 = "";
-            for (ll i = indices[ind] + 1; i < s.length(); i++)
-            {
-                dividend2 += s[i];
-                ll dividend = stoi(dividend2);
+        ll fnlAns = 1e9;
 
-                if (dividend >= b)
+        bool flag = false;
+        ll rem = 0;
+        for (ll i = s.length() - 1; i >= 0; i--)
+        {
+            ll rem_cont = power(10, s.length() - 1 - i, b);
+            rem_cont *= (s[i] - '0');
+            rem_cont = (rem_cont % b);
+            rem += rem_cont;
+            rem %= b;
+            if (rem == 0)
+            {
+                if (i - 1>= 0 && indices[i - 1] == 0)
                 {
-                    ll rem = dividend % b;
-                    if (rem == 0)
-                    {
-                        dividend2 = "";
-                        if (i == s.length() - 1)
-                        {
-                            flag2 = true;
-                            idx = indices[ind];
-                        }
-                        ll real_idx = i;
-                        while (i < s.length())
-                        {
-                            i++;
-                            if (i < s.length() && s[i] == '0')
-                                continue;
-                            else
-                                break;
-                        }
-                        if (i == s.length())
-                        {
-                            flag2 = true;
-                            idx = indices[ind];
-                        }
-                        if (i != real_idx)
-                            i--;
-                    }
-                    else
-                        dividend2 = to_string(rem);
+                    fnlAns = i - 1;
+                    flag = true;
+                    break;
                 }
             }
         }
 
-        if (flag1 && flag2)
+        if (flag)
         {
             cout << "YES\n";
-            cout << s.substr(0, idx + 1) << endl;
-            cout << s.substr(idx + 1) << endl;
+            cout << s.substr(0, fnlAns + 1) << endl;
+            cout << s.substr(fnlAns + 1) << endl;
         }
         else
             cout << "NO" << endl;
