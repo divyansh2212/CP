@@ -13,40 +13,18 @@ int main()
         ll n;
         cin >> n;
 
-        vector<ll> arr(n), hsh(n, 0);
+        vector<ll> arr(n);
+        int odds = 0, evens = 0;
         for (ll i = 0; i < n; i++)
+        {
             cin >> arr[i];
-
-        for (ll i = 0; i < n - 1; i++)
-        {
-            if ((arr[i] + arr[i + 1]) % 2)
-            {
-                hsh[i] = 1;
-                hsh[i + 1] = 1;
-            }
-        }
-
-        ll ans = 0, curr = 0;
-
-        for (int i = 0; i < n; i++)
-        {
-            if (hsh[i])
-                curr++;
+            if (arr[i] % 2)
+                odds++;
             else
-            {
-                if (curr > 2)
-                    ans += curr - 2;
-                else
-                    ans += curr;
-                curr = 0;
-            }
+                evens++;
         }
-        if (curr > 2)
-            ans += curr - 2;
-        else
-            ans += curr;
 
-        cout << ans << endl;
+        cout << min(odds, evens) << endl;
     }
     return 0;
 }
