@@ -4,20 +4,6 @@
 using namespace std;
 #define ll long long
 
-ll dfs(ll idx, ll curr_time, ll &k, vector<ll> &mushrooms)
-{
-    if (idx < 0 || idx >= mushrooms.size() || curr_time == k)
-        return 0;
-
-    ll way1 = mushrooms[idx] + curr_time, way2 = mushrooms[idx] + curr_time;
-    mushrooms[idx] = 0;
-
-    way1 += dfs(idx + 1, curr_time + 1, k, mushrooms);
-    way2 += dfs(idx - 1, curr_time + 1, k, mushrooms);
-
-    return max(way1, way2);
-}
-
 int main()
 {
     int t;
@@ -27,19 +13,30 @@ int main()
         ll n, k;
         cin >> n >> k;
 
-        vector<ll> mushrooms(n);
-        ll mx = INT_MIN, idx;
+        vector<ll> arr(n);
         for (ll i = 0; i < n; i++)
+            cin >> arr[i];
+
+        vector<ll> prefix(n + 1, 0);
+
+        for (ll i = 1; i <= n; i++)
+            prefix[i] = prefix[i - 1] + arr[i - 1];
+
+        ll ans = 0;
+        if (k <= n)
         {
-            cin >> mushrooms[i];
-            if (mushrooms[i] > mx)
-                mx = mushrooms[i], idx = i;
+            for (ll i = k; i <= n; i++)
+                ans = max(ans, prefix[i] - prefix[i - k]);
+            ans += (k - 1) * k / 2;
         }
 
-        // sort(mushrooms.begin(), mushrooms.end());
-        // reverse(mushrooms.begin(), mushrooms.end());
-        
-       
+        else
+        {
+            ans = prefix[n];
+            ans += n * k - (n) * (n + 1) / 2;
+        }
+
+        cout << ans << endl;
     }
     return 0;
 }

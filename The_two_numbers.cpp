@@ -6,14 +6,6 @@ using namespace std;
 
 int main()
 {
-    vector<ll> is_prime(1000000, true);
-    is_prime[0] = false, is_prime[1] = false;
-
-    for (ll i = 2; i < 1e6; i++)
-        if (is_prime[i])
-            for (ll j = 2 * i; j < 1e6; j += i)
-                is_prime[j] = false;
-
     int t;
     cin >> t;
     while (t--)
@@ -21,15 +13,26 @@ int main()
         ll n;
         cin >> n;
 
-        ll ans = 0;
+        ll a = n / 2, b = n / 2;
 
-        for (ll i = 1; i < min(n, 10000 * 1LL); i++)
+        if (n == 2)
         {
-            ll a = i, b = n - i;
-            ll ans = max(ans, ((a * b) / __gcd(a, b)) - __gcd(a, b));
+            cout << 0 << endl;
+            continue;
         }
 
-        cout << ans << endl;
+        if (n % 2)
+            b += 1;
+        else
+        {
+            if ((n / 2) % 2 == 0)
+                a--, b++;
+
+            else
+                a -= 2, b += 2;
+        }
+
+        cout << ((a * b) / __gcd(a, b)) - __gcd(a, b) << endl;
     }
     return 0;
 }

@@ -9,24 +9,17 @@ class Solution
 public:
     vector<int> arrayChange(vector<int> &nums, vector<vector<int>> &operations)
     {
-        int n = nums.size();
-
-        set<pair<int, int>> pairs;
+        unordered_map<int, int> m;
 
         for (int i = 0; i < nums.size(); i++)
-            pairs.insert({nums[i], i});
+            m[nums[i]] = i;
 
         for (int i = 0; i < operations.size(); i++)
         {
-            int ele = operations[i][0], ele2 = operations[i][1];
-
-            auto pos = s.find({})
-        }
-
-        for (int i = 0; i < pairs.size(); i++)
-        {
-            int idx = pairs[i].second, e = pairs[i].first;
-            nums[idx] = e;
+            int x = operations[i][0], y = operations[i][1];
+            int idx = m[x];
+            m.erase(x);
+            nums[idx] = y, m[y] = idx;
         }
 
         return nums;
