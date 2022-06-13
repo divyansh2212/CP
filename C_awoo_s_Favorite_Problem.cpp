@@ -4,41 +4,6 @@
 using namespace std;
 #define ll long long
 
-bool f(string s, int idx, string &t, vector<int> &dp)
-{
-    if (s == t)
-        return true;
-    if (idx >= s.length())
-        return false;
-
-    if (dp[idx] != -1)
-        return dp[idx];
-
-    bool flag1 = false, flag2 = false;
-
-    // not change
-    flag1 = f(s, idx + 1, t, dp);
-
-    // change
-    if (idx + 1 < s.length())
-    {
-        if (s[idx] == 'a' && s[idx + 1] == 'b')
-        {
-            swap(s[idx], s[idx + 1]);
-            flag2 = f(s, idx + 1, t, dp);
-            swap(s[idx], s[idx + 1]);
-        }
-        if (s[idx] == 'b' && s[idx + 1] == 'c')
-        {
-            swap(s[idx], s[idx + 1]);
-            flag2 = f(s, idx + 1, t, dp);
-            swap(s[idx], s[idx + 1]);
-        }
-    }
-
-    return dp[idx] = (flag1 | flag2);
-}
-
 int main()
 {
     int t;
@@ -52,92 +17,60 @@ int main()
         cin >> s;
         cin >> t;
 
-        if (s == t)
-        {
-            cout << "YES\n";
-            continue;
-        }
+        bool flag = true;
 
-        int a = 0, b = 0, c = 0;
+        int a = 0, c = 0;
         for (int i = 0; i < n; i++)
         {
             if (s[i] == 'a')
                 a++;
-            else if (s[i] == 'b')
-                b++;
             else if (s[i] == 'c')
                 c++;
             if (t[i] == 'a')
                 a--;
-            else if (t[i] == 'b')
-                b--;
             else if (t[i] == 'c')
                 c--;
         }
 
-        if (a != 0 || b != 0 || c != 0)
+        if (a != 0 || c != 0)
         {
             cout << "NO\n";
             continue;
+            ;
         }
 
-        // vector<int> dp(n, -1);
-        bool flag = true;
-
-        int i = n - 1;
-        while (i >= 0 && s[i] == t[i])
+        string s2 = "", t2 = "";
+        for (int i = 0; i < n; i++)
         {
-            s.pop_back();
-            t.pop_back();
-            i--;
+            if (s[i] != 'b')
+                s2.push_back(s[i]);
+            if (t[i] != 'b')
+                t2.push_back(t[i]);
         }
 
-        int abs = 0, bas = 0;
-        for (i = 0; i < n; i++)
+        if (s2 != t2)
+            flag = false;
+
+        vector<int> sa, ta, sc, tc;
+        for (int i = 0; i < n; i++)
         {
             if (s[i] == 'a')
-            {
-                while (i < n && s[i] == 'a')
-                    i++;
-                if (i < n && s[i] == 'b')
-                    abs++;
-            }
-        }
-        for (i = 0; i < n; i++)
-        {
-            if (t[i] == 'b')
-            {
-                while (i < n && t[i] == 'b')
-                    i++;
-                if (i < n && t[i] == 'a')
-                    bas++;
-            }
+                sa.push_back(i);
+            else if (s[i] == 'c')
+                sc.push_back(i);
+            if (t[i] == 'a')
+                ta.push_back(i);
+            else if (t[i] == 'c')
+                tc.push_back(i);
         }
 
-        int bcs = 0, cbs = 0;
-        for (i = 0; i < n; i++)
-        {
-            if (s[i] == 'b')
-            {
-                while (i < n && s[i] == 'b')
-                    i++;
-                if (i < n && s[i] == 'c')
-                    bcs++;
-            }
-        }
-        for (i = 0; i < n; i++)
-        {
-            if (t[i] == 'c')
-            {
-                while (i < n && t[i] == 'c')
-                    i++;
-                if (i < n && t[i] == 'b')
-                    cbs++;
-            }
-        }
+        for (int i = 0; i < sa.size(); i++)
+            if (ta[i] < sa[i])
+                flag = false;
 
-        if (bcs != cbs || bas != abs)
-            flag = false;
+        for (int i = 0; i < sc.size(); i++)
+            if (tc[i] > sc[i])
+                flag = false;
 
         if (flag)
             cout << "YES\n";
