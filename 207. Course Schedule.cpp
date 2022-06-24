@@ -7,23 +7,24 @@ using namespace std;
 class Solution
 {
 public:
-    void dfs(vector<vector<int>> &prerequisites, int vtx, vector<bool> &visited, bool &flag)
+    void dfs(vector<vector<int>> &prerequisites, int vtx, vector<bool> &visited, vector<bool> &dfsvisited, bool &flag, vector<int> &ans)
     {
         visited[vtx] = true;
+        dfsvisited[vtx] = true;
 
         for (auto &child : prerequisites[vtx])
         {
-            if (visited[child])
+            if (visited[child] && dfsvisited[child])
                 flag = false;
-            else
-                dfs(prerequisites, child, visited, flag);
+            else if (!visited[child])
+                dfs(prerequisites, child, visited, dfsvisited, flag, ans);
         }
+        dfsvisited[vtx] = false;
+        ans.push_back(vtx);
     }
 
-    bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+    vector<int> findOrder(int numCourses, vector<vector<int>> &prerequisites)
     {
-        vector<bool> visited(numCourses, false);
-
         vector<vector<int>> graph(numCourses);
 
         for (int i = 0; i < prerequisites.size(); i++)
@@ -33,12 +34,16 @@ public:
         }
 
         bool flag = true;
+        vector<bool> visited(numCourses, false);
+        vector<bool> dfsvisited(numCourses, false);
+        vector<int> ans;
         for (int i = 0; i < numCourses; i++)
-        {
             if (!visited[i])
-                dfs(graph, i, visited, flag);
-        }
+                dfs(graph, i, visited, dfsvisited, flag, ans);
 
-        return flag;
+        if (flag == false)
+            return {};
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };

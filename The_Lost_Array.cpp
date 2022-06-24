@@ -36,6 +36,7 @@ int main()
 
         for (int i = 0; i < 32; i++)
         {
+            
             if (hsh[i])
             {
                 arr[curr_idx] = ((1 << i));
