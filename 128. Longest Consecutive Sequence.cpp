@@ -9,25 +9,22 @@ class Solution
 public:
     int longestConsecutive(vector<int> &nums)
     {
-        map<int, int> m;
-
+        map<int, int> mp;
         for (int i = 0; i < nums.size(); i++)
-            m[nums[i]] = 1;
+            mp[nums[i]]++;
 
-        int curr = 0, ans = 0, lastele = -1, i = 0;
+        int ans = 0, curr = 0;
+        int last = INT_MAX;
 
-        for (auto &it : m)
+        for (auto &it : mp)
         {
-            if (it.first - lastele == 1 || i == 0)
+            if (last == INT_MAX || it.first - last == 1)
                 curr++;
             else
                 curr = 1;
-
-            lastele = it.first;
             ans = max(ans, curr);
-            i++;
+            last = it.first;
         }
-
         return ans;
     }
 };
