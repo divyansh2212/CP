@@ -1,32 +1,38 @@
-// Jai Shree Babosa!
-
 #include <bits/stdc++.h>
+
 using namespace std;
-#define ll long long
+
+const int MAXN = 100010;
+
+int n;
+int a[MAXN];
+
+int query(int x)
+{
+    if (1 <= x && x <= n)
+    {
+        printf("? %d\n", x);
+        fflush(stdout);
+        scanf("%d", &a[x]);
+    }
+}
 
 int main()
 {
-    int n;
-    cin >> n;
-
-    vector<int> arr(n + 1);
-    int ans = -1;
-    for (int q = 1; q <= min(100, n); q++)
+    scanf("%d", &n);
+    a[0] = a[n + 1] = n + 1;
+    int L = 1, R = n;
+    while (L < R)
     {
-        scanf("%d", &arr[q]);
-        printf("? %d\n", q);
-        fflush(stdout);
-
-        if (q >= 3)
-            if (arr[q - 1] < arr[q] && arr[q - 1] < arr[q - 2])
-                ans = q - 1;
+        int m = (L + R) / 2;
+        query(m);
+        query(m + 1);
+        if (a[m] < a[m + 1])
+            R = m;
+        else
+            L = m + 1;
     }
-
-    if (ans != -1)
-    {
-        printf("! %d\n", ans);
-        fflush(stdout);
-    }
-
+    printf("! %d\n", L);
+    fflush(stdout);
     return 0;
 }
