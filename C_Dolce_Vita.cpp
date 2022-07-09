@@ -13,31 +13,25 @@ int main()
         ll n, x;
         cin >> n >> x;
 
-        vector<ll> prices(n);
+        vector<ll> arr(n);
         for (int i = 0; i < n; i++)
-            cin >> prices[i];
+            cin >> arr[i];
 
-        sort(prices.begin(), prices.end());
+        sort(arr.begin(), arr.end());
 
-        ll total_sum = accumulate(prices.begin(), prices.end(), 0);
+        ll items = 0;
 
-        ll idx = 0, ans = 0;
-        while (prices[n - 1] + idx <= x)
-        {
-            ans += n;
-            total_sum += n;
-            idx++;
-        }
+        for (int i = 1; i < n; i++)
+            arr[i] += arr[i - 1];
 
         for (int i = 0; i < n; i++)
         {
-            x -= prices[i] + idx;
-            if (x < 0)
-                break;
-            ans++;
+            ll diff = x - arr[i];
+            if (diff >= 0)
+                items += (diff) / (i + 1) + 1;
         }
 
-        cout << ans << endl;
+        cout << items << endl;
     }
     return 0;
 }
