@@ -1,28 +1,26 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 
-int dp[3000];
-
-int helper(vector<int> &cost, int idx)
+class Solution
 {
-    if (idx == cost.size())
-        return 0;
-    if (idx > cost.size())
-        return 1e9;
-    if (dp[idx] != -1)
-        return dp[idx];
-    int total_cost = 1e9;
+public:
+    int minCostClimbingStairs(vector<int> &cost)
+    {
+        int n = cost.size();
+        vector<int> dp(n + 1, 0);
+        dp[0] = cost[0], dp[1] = cost[1];
 
-    total_cost = min(total_cost, helper(cost, idx + 1) + cost[idx]);
-    total_cost = min(total_cost, helper(cost, idx + 2) + cost[idx]);
+        for (int idx = 2; idx < n + 1; idx++)
+        {
+            dp[idx] = dp[idx - 1];
+            dp[idx] = min(dp[idx], dp[idx - 2]);
+            if (idx != n)
+                dp[idx] += cost[idx];
+        }
 
-    return dp[idx] = total_cost;
-}
-
-int minCostClimbingStairs(vector<int> &cost)
-{
-    memset(dp, -1, sizeof(dp));
-    int ans = helper(cost, 0);
-    ans = min(ans, helper(cost, 1));
-    return ans;
-}
+        return dp[n];
+    }
+};

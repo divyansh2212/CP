@@ -12,47 +12,23 @@ public:
         sort(buses.begin(), buses.end());
         sort(passengers.begin(), passengers.end());
 
-        // for (int i = buses.size() - 1; i >= 0; i--)
-        // {
-        //     int prev;
-        //     if (i > 0)
-        //         prev = buses[i - 1];
-        //     else
-        //         prev = 0;
-        //     vector<int> curr;
-        //     for (int p = passengers.size() - 1; p >= 0; p--)
-        //     {
-        //         if (passengers[p] < buses[i] && passengers[p] >= prev)
-        //             curr.push_back(passengers[p]);
-        //         else
-        //             break;
-        //     }
+        int ans = min(passengers[0] - 1, buses[buses.size() - 1]), i = 0, idx = 0;
 
-        //     int currcapacity = 0;
-        //     for (int j = curr.size() - 1; j >= 0; j--)
-        //     {
-        //         currcapacity++;
-        //         if (currcapacity == capacity - 1)
-        //         {
-        //             if (j + 1 < curr.size() && curr[j + 1] == curr[j] - 1)
-        //                 break;
-        //             else if (curr[j] - 1 < prev)
-        //                 break;
-        //             return curr[j] - 1;
-        //         }
-        //     }
-        // }
-        // return 1;
-
-        int lo = 1, hi = buses[buses.size() - 1], mid;
-
-        int time = 1;
-        while (lo<=hi)
+        for (i = 0; i < buses.size() && idx < passengers.size(); i++)
         {
-            mid = lo + ((hi - lo)/2);
-            if(check)
+            int cap = capacity;
+            while (idx < passengers.size() && passengers[idx] <= buses[i] && cap > 0)
+            {
+                if (idx > 0 && passengers[idx] - passengers[idx - 1] > 1)
+                    ans = passengers[idx] - 1;
+                cap--, idx++;
+            }
+            if (cap && idx > 0 && passengers[idx - 1] != buses[i])
+                ans = buses[i];
         }
-        
+        if (i != buses.size())
+            ans = buses[buses.size() - 1];
 
+        return ans;
     }
 };
