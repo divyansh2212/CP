@@ -13,7 +13,7 @@ int main()
         int n, k;
         cin >> n >> k;
 
-        unordered_map<int, vector<int>> mp;
+        map<int, vector<int>> mp;
         for (int i = 0; i < n; i++)
         {
             int x;

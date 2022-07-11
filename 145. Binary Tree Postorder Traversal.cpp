@@ -18,33 +18,28 @@ using namespace std;
 class Solution
 {
 public:
-    vector<int> inorderTraversal(TreeNode *root)
+    vector<int> postorderTraversal(TreeNode *root)
     {
         if (root == NULL)
             return {};
 
-        stack<TreeNode *> st;
         vector<int> ans;
+        stack<TreeNode *> st;
+        st.push(root);
 
-        TreeNode *curr = root;
-
-        while (1)
+        while (!st.empty())
         {
-            if (curr)
-            {
-                st.push(curr);
-                curr = curr->left;
-            }
-            else
-            {
-                if (st.empty())
-                    break;
-                curr = st.top();
-                ans.push_back(curr->val);
-                curr = curr->right;
-                st.pop();
-            }
+            auto top = st.top();
+            st.pop();
+            if (top->left)
+                st.push(top->left);
+            if (top->right)
+                st.push(top->right);
+            ans.push_back(top->val);
         }
+
+        reverse(ans.begin(), ans.end());
+
         return ans;
     }
 };

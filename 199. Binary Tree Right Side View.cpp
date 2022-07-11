@@ -18,31 +18,29 @@ using namespace std;
 class Solution
 {
 public:
-    vector<int> inorderTraversal(TreeNode *root)
+    vector<int> rightSideView(TreeNode *root)
     {
         if (root == NULL)
             return {};
 
-        stack<TreeNode *> st;
         vector<int> ans;
 
-        TreeNode *curr = root;
+        queue<TreeNode *> q;
+        q.push(root);
 
-        while (1)
+        while (!q.empty())
         {
-            if (curr)
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
             {
-                st.push(curr);
-                curr = curr->left;
-            }
-            else
-            {
-                if (st.empty())
-                    break;
-                curr = st.top();
-                ans.push_back(curr->val);
-                curr = curr->right;
-                st.pop();
+                auto front = q.front();
+                q.pop();
+                if (front->left)
+                    q.push(front->left);
+                if (front->right)
+                    q.push(front->right);
+                if (i == sz - 1)
+                    ans.push_back(front->val);
             }
         }
         return ans;

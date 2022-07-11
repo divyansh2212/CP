@@ -18,32 +18,24 @@ using namespace std;
 class Solution
 {
 public:
-    vector<int> inorderTraversal(TreeNode *root)
+    vector<int> preorderTraversal(TreeNode *root)
     {
         if (root == NULL)
             return {};
 
         stack<TreeNode *> st;
         vector<int> ans;
+        st.push(root);
 
-        TreeNode *curr = root;
-
-        while (1)
+        while (!st.empty())
         {
-            if (curr)
-            {
-                st.push(curr);
-                curr = curr->left;
-            }
-            else
-            {
-                if (st.empty())
-                    break;
-                curr = st.top();
-                ans.push_back(curr->val);
-                curr = curr->right;
-                st.pop();
-            }
+            auto top = st.top();
+            st.pop();
+            ans.push_back(top->val);
+            if (top->right)
+                st.push(top->right);
+            if (top->left)
+                st.push(top->left);
         }
         return ans;
     }
