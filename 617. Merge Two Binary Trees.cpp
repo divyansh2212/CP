@@ -18,13 +18,20 @@ using namespace std;
 class Solution
 {
 public:
-    bool isSameTree(TreeNode *p, TreeNode *q)
+    TreeNode *mergeTrees(TreeNode *root1, TreeNode *root2)
     {
-        if (p == NULL && q == NULL)
-            return true;
-        if (p == NULL || q == NULL || p->val != q->val)
-            return false;
+        if (root1 == NULL && root2 == NULL)
+            return root1;
 
-        return isSameTree(p->left, q->left) & isSameTree(p->right, q->right);
+        if (root1 && root2)
+        {
+            root1->val += root2->val;
+            root1->left = mergeTrees(root1->left, root2->left);
+            root1->right = mergeTrees(root1->right, root2->right);
+        }
+        else
+            return root1 ? root1 : root2;
+
+        return root1;
     }
 };

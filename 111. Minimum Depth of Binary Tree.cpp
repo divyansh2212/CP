@@ -18,13 +18,18 @@ using namespace std;
 class Solution
 {
 public:
-    bool isSameTree(TreeNode *p, TreeNode *q)
+    int depth(TreeNode *root)
     {
-        if (p == NULL && q == NULL)
-            return true;
-        if (p == NULL || q == NULL || p->val != q->val)
-            return false;
-
-        return isSameTree(p->left, q->left) & isSameTree(p->right, q->right);
+        if (root == NULL)
+            return INT_MAX;
+        if (root->left == NULL && root->right == NULL)
+            return 1;
+        return 1 + min(depth(root->left), depth(root->right));
+    }
+    int minDepth(TreeNode *root)
+    {
+        if (root == NULL)
+            return 0;
+        return depth(root);
     }
 };

@@ -17,14 +17,21 @@ using namespace std;
  */
 class Solution
 {
-public:
-    bool isSameTree(TreeNode *p, TreeNode *q)
+    int depth(TreeNode *root, int &diameter)
     {
-        if (p == NULL && q == NULL)
-            return true;
-        if (p == NULL || q == NULL || p->val != q->val)
-            return false;
+        if (root == NULL)
+            return 0;
+        int l = depth(root->left, diameter), r = depth(root->right, diameter);
+        diameter = max(diameter, l + r);
 
-        return isSameTree(p->left, q->left) & isSameTree(p->right, q->right);
+        return 1 + max(l, r);
+    }
+
+public:
+    int diameterOfBinaryTree(TreeNode *root)
+    {
+        int dia = 0;
+        depth(root, dia);
+        return dia;
     }
 };

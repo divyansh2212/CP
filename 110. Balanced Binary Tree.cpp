@@ -17,28 +17,26 @@ using namespace std;
  */
 class Solution
 {
-public:
-    int dfsHeight(TreeNode *root)
+    int maxDepth(TreeNode *root)
     {
         if (root == NULL)
             return 0;
-
-        int lh = dfsHeight(root->left);
+        int lh = maxDepth(root->left);
         if (lh == -1)
             return -1;
-
-        int rh = dfsHeight(root->right);
+        int rh = maxDepth(root->right);
         if (rh == -1)
             return -1;
 
         if (abs(lh - rh) > 1)
             return -1;
 
-        return 1 + max(lh, rh);
+        return max(lh, rh) + 1;
     }
 
+public:
     bool isBalanced(TreeNode *root)
     {
-        return dfsHeight(root) != -1;
+        return maxDepth(root) != -1;
     }
 };
