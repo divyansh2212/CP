@@ -1,48 +1,40 @@
-// Jai Shree Babosa!
-
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-
-void flip(string &s, int idx)
-{
-    for (int i = 0; i < s.length(); i++)
-    {
-        if (i == idx)
-            continue;
-        if (s[i] == '0')
-            s[i] = '1';
-        else
-            s[i] = '0';
-    }
-}
+using lol = long long int;
+#define endl "\n"
 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int _ = 1;
+    cin >> _;
+    while (_--)
     {
-        ll n, k;
+        int n, k;
         cin >> n >> k;
-
         string s;
         cin >> s;
-
-        if (k == 0)
+        vector<int> f(n, 0);
+        int tmpk = k;
+        for (int i = 0; i < n && tmpk > 0; i++)
         {
-            cout << s << endl;
-            continue;
+            if (k % 2 == s[i] - '0')
+            {
+                f[i] = 1;
+                tmpk--;
+            }
         }
-
-        if (k % 2 && s[0] == '1')
+        f[n - 1] += tmpk;
+        for (int i = 0; i < n; i++)
         {
-            flip(s, 0);
+            if ((k - f[i]) % 2 == 1)
+                s[i] = '1' - (s[i] - '0');
         }
-        else if(k % 2 == 0)
-        {
-            
-        }
+        cout << s << endl;
+        for (auto &e : f)
+            cout << e << " ";
+        cout << endl;
     }
     return 0;
 }
