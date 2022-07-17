@@ -3,64 +3,68 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define INF INT_MAX
+const int M = 1e9 + 7;
 
+void solve()
+{
+    ll n, q;
+    cin >> n >> q;
+
+    vector<ll> arr(n), bad;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+        if (arr[i] > q)
+            bad.push_back(i);
+    }
+
+    ll lo = 0, hi = (int)bad.size() - 1, mid;
+    if (hi == -1)
+    {
+        for (int i = 0; i < n; i++)
+            cout << 1;
+        cout << endl;
+        return;
+    }
+
+    ll ans = n;
+    while (lo <= hi)
+    {
+        mid = (lo + hi) / 2;
+        ll flag = 1, curr_iq = q;
+
+        for (int i = bad[mid]; i < n; i++)
+        {
+            if (curr_iq == 0)
+                flag = 0;
+            if (arr[i] > curr_iq)
+                curr_iq--;
+        }
+
+        if (flag)
+            ans = bad[mid], hi = mid - 1;
+        else
+            lo = mid + 1;
+    }
+
+    for (int i = 0; i < ans; i++)
+    {
+        if (arr[i] <= q)
+            cout << 1;
+        else
+            cout << 0;
+    }
+    for (int i = ans; i < n; i++)
+        cout << 1;
+
+    cout << endl;
+}
 int main()
 {
-    ll t;
+    int t;
     cin >> t;
     while (t--)
-    {
-        ll n, q;
-        cin >> n >> q;
-
-        vector<ll> arr(n);
-        bool flag = true;
-        ll q_c = q, cnt = 0;
-        for (ll i = 0; i < n; i++)
-        {
-            cin >> arr[i];
-            if (arr[i] > q)
-                q_c--, cnt++;
-            if (q_c <= 0)
-                flag = false;
-        }
-
-        if (q >= n || flag)
-        {
-            string ans(n, '1');
-            cout << ans << endl;
-            continue;
-        }
-
-        ll idx1 = 0, idx2 = 0;
-
-        ll i = 0;
-        while (i < n)
-        {
-            if (idx2 - idx1 >= (n - 1 - i))
-                break;
-            ll q_c = q; 
-            ll j = i, k = min(i + q - 1, n - 1);
-            while (j <= k && q_c > 0)
-            {
-                if (arr[j] <= q_c)
-                    k = min(k + 1, n - 1);
-                else
-                    q_c--;
-                j++;
-            }
-            if ((j - 1) - i > (idx2 - idx1))
-                idx1 = i, idx2 = j - 1;
-            if (idx2 == n - 1)
-                break;
-            i++;
-        }
-
-        string ans(n, '0');
-        for (ll i = idx1; i <= idx2; i++)
-            ans[i] = '1';
-
-        cout << ans << endl;
-    }
+        solve();
     return 0;
 }
