@@ -17,12 +17,11 @@ using namespace std;
  */
 class Solution
 {
-public:
-    TreeNode *findLastRight(TreeNode *root)
+    TreeNode *lastRight(TreeNode *root)
     {
         if (root->right == NULL)
             return root;
-        return findLastRight(root->right);
+        return lastRight(root->right);
     }
 
     TreeNode *helper(TreeNode *root)
@@ -33,11 +32,14 @@ public:
             return root->left;
 
         TreeNode *rightChild = root->right;
-        TreeNode *lastRight = findLastRight(root->left);
-        lastRight->right = rightChild;
+        TreeNode *lastRightOfLeft = lastRight(root->left);
+
+        lastRightOfLeft->right = rightChild;
+
         return root->left;
     }
 
+public:
     TreeNode *deleteNode(TreeNode *root, int key)
     {
         if (root == NULL)

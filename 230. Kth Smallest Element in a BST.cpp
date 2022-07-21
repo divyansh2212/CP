@@ -4,23 +4,33 @@
 using namespace std;
 #define ll long long
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution
 {
-public:
-    vector<int> vec;
-    void preOrder(TreeNode *root)
+    void inOrder(TreeNode *root, vector<int> &ans)
     {
         if (root == NULL)
             return;
-        vec.push_back(root->val);
-        preOrder(root->left);
-        preOrder(root->right);
+        inOrder(root->left, ans);
+        ans.push_back(root->val);
+        inOrder(root->right, ans);
     }
 
+public:
     int kthSmallest(TreeNode *root, int k)
     {
-        preOrder(root);
-        sort(vec.begin(), vec.end());
+        vector<int> vec;
+        inOrder(root, vec);
         return vec[k - 1];
     }
 };

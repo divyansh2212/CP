@@ -3,82 +3,68 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define INF INT_MAX
+const int M = 1e9 + 7;
 
-void dfs(vector<int> graph[], int vtx, vector<int> &ans, vector<int> &curr)
-{
-    curr.push_back(vtx);
-    if (curr.size() >= ans.size())
-        ans = curr;
-
-    for (auto &child : graph[vtx])
-        dfs(graph, child, ans, curr);
-
-    curr.pop_back();
-}
-
-void dfs2(vector<int> graph[], int vtx, vector<bool> &visited, vector<int> &curr)
+void dfs(vector<int> graph[], vector<bool> &visited, vector<vector<int>> &ans, vector<int> &curr, int vtx)
 {
     visited[vtx] = true;
     curr.push_back(vtx);
 
+    if (graph[vtx].size() == 0)
+        ans.push_back(curr);
+
+    int i = 0;
     for (auto &child : graph[vtx])
     {
+        if (i > 0)
+            curr.clear();
         if (visited[child])
             continue;
-        dfs2(graph, child, visited, curr);
+        dfs(graph, visited, ans, curr, child);
+        i++;
     }
 }
 
+void solve()
+{
+    int n;
+    cin >> n;
+
+    vector<int> p(n + 1);
+    vector<int> graph[n + 1];
+    int root;
+    for (int i = 1; i <= n; i++)
+    {
+        int x;
+        cin >> x;
+        if (i == x)
+            root = x;
+        else
+            graph[x].push_back(i);
+    }
+
+    vector<bool> visited(n + 1, false);
+    vector<vector<int>> ans;
+    vector<int> curr;
+
+    dfs(graph, visited, ans, curr, root);
+
+    cout << ans.size() << "\n";
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i].size() << "\n";
+        for (int j = 0; j < ans[i].size(); j++)
+            cout << ans[i][j] << " ";
+        cout << "\n";
+    }
+    cout << endl;
+}
 int main()
 {
     int t;
     cin >> t;
     while (t--)
-    {
-        int n;
-        cin >> n;
-
-        vector<int> graph[n + 1];
-        int root = -1;
-
-        for (int i = 1; i < n + 1; i++)
-        {
-            int x;
-            cin >> x;
-            if (x == i)
-                root = i;
-            else
-                graph[x].push_back(i);
-        }
-
-        vector<int> ans;
-        vector<int> curr;
-        dfs(graph, root, ans, curr);
-
-        vector<bool> visited(n + 1, false);
-        for (int i = 0; i < ans.size(); i++)
-            visited[ans[i]] = true;
-
-        cout << ans.size() << endl;
-        for (int i = 0; i < ans.size(); i++)
-            cout << ans[i] << " ";
-
-        cout << endl;
-
-        vector<vector<int>> finalans;
-        for (int i = 1; i <= n; i++)
-        {
-            if (visited[i])
-                continue;
-            curr.clear();
-            dfs2(graph, i, visited, curr);
-            cout << curr.size() << endl;
-            for (int i = 0; i < curr.size(); i++)
-                cout << curr[i] << " ";
-
-            cout << endl;
-        }
-        cout << endl;
-    }
+        solve();
     return 0;
 }

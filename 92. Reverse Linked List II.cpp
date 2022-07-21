@@ -24,7 +24,7 @@ public:
     }
     ListNode *reverseBetween(ListNode *head, int left, int right)
     {
-        int len = 0, data;
+        int len = 0;
 
         ListNode *dummynode = new ListNode(1000);
         ListNode *dummytemp = dummynode;
@@ -36,7 +36,7 @@ public:
             len++;
             if (len >= left && right >= len)
             {
-                data = temp->val;
+                int data = temp->val;
                 dummytemp->next = new ListNode(data);
                 dummytemp = dummytemp->next;
             }
@@ -44,6 +44,17 @@ public:
         }
 
         ListNode *reversedlist = reverse(dummynode->next);
+        // temp = reversedlist;
+
+        // while (temp != NULL)
+        // {
+        //     if (temp->next->next == NULL)
+        //     {
+        //         temp->next = NULL;
+        //         break;
+        //     }
+        //     temp = temp->next;
+        // }
 
         ListNode *finalList = new ListNode(-1000);
         ListNode *temp1 = head;
@@ -51,7 +62,7 @@ public:
         ListNode *maintemp = finalList;
 
         len = 0;
-        
+        int data;
         while (temp1 != NULL)
         {
             len++;
