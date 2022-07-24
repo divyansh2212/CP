@@ -20,7 +20,6 @@ class Solution
     {
         ListNode *temp = head;
         int len = 0;
-
         while (temp != NULL)
         {
             len++;
@@ -30,34 +29,26 @@ class Solution
     }
 
 public:
-    ListNode *rotateRight(ListNode *head, int k)
+    ListNode *reverseKGroup(ListNode *head, int k)
     {
-        if (head == NULL)
-            return NULL;
         int len = l(head);
-        k = k % len;
+        if (head == NULL || len < k)
+            return head;
 
-        ListNode *temp = head;
-        while (temp->next != NULL)
-            temp = temp->next;
+        int cnt = 0;
+        ListNode *prevptr = NULL, *currptr = head, *nextptr;
 
-        temp->next = head;
-
-        temp = head;
-
-        int to_rotate = len - k, cnt = 0;
-
-        while (temp != NULL)
+        while (currptr != NULL && cnt < k)
         {
             cnt++;
-            if (cnt == to_rotate)
-            {
-                ListNode *ans = temp->next;
-                temp->next = NULL;
-                return ans;
-            }
-            temp = temp->next;
+            nextptr = currptr->next;
+            currptr->next = prevptr;
+            prevptr = currptr;
+            currptr = nextptr;
         }
-        return head;
+
+        head->next = reverseKGroup(nextptr, k);
+
+        return prevptr;
     }
 };
