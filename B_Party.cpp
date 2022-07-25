@@ -3,30 +3,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-#define INF INT_MAX
+#define inf INT_MAX
 const int M = 1e9 + 7;
-
-ll dfs(vector<ll> &arr, vector<int> graph[], int vtx, int bonds, vector<bool> &visited)
-{
-    ll ans = arr[vtx];
-    visited[vtx] = true;
-    bonds -= graph[vtx].size();
-
-    for (auto &child : graph[vtx])
-        if (visited[child])
-            bonds++;
-            
-    if (bonds % 2 == 0)
-        return ans;
-    ll curr = INF;
-    for (auto &child : graph[vtx])
-    {
-        if (visited[child])
-            continue;
-        curr = min(curr, dfs(arr, graph, child, bonds, visited));
-    }
-    return ans + curr;
-}
 
 void solve()
 {
@@ -41,10 +19,13 @@ void solve()
 
     vector<int> graph[n + 1];
 
+    ll ans = inf;
+    vector<pair<int, int>> pairs;
     for (int i = 0; i < m; i++)
     {
         int x, y;
         cin >> x >> y;
+        pairs.push_back({x, y});
         graph[x].push_back(y);
         graph[y].push_back(x);
     }
@@ -55,17 +36,16 @@ void solve()
         return;
     }
 
-    ll ans = INF, curr = 0;
-    for (int i = 1; i <= n; i++)
+    for (int i = 0; i < pairs.size(); i++)
     {
-        ll bonds = m;
-        if (graph[i].size())
-        {
-            vector<bool> visited(n + 1, false);
-            curr = dfs(arr, graph, i, bonds, visited);
-            ans = min(ans, curr);
-        }
+        int x = pairs[i].first, y = pairs[i].second;
+        if (graph[x].size() % 2 == 0 && graph[y].size() % 2 == 0)
+            ans = min(ans, arr[x] + arr[y]);
     }
+
+    for (int i = 1; i <= n; i++)
+        if (graph[i].size() % 2)
+            ans = min(ans, arr[i]);
 
     cout << ans << endl;
 }

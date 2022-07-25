@@ -3,84 +3,64 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution
 {
-public:
-    ListNode *reverse(ListNode *head)
+    ListNode *reverse(ListNode *head, ListNode *tail)
     {
-        ListNode *prevptr = NULL;
-        ListNode *currptr = head;
-        ListNode *nextptr;
+        ListNode *prevptr = NULL, *currptr = head, *nextptr;
 
-        while (currptr != NULL)
+        while (currptr != tail)
         {
             nextptr = currptr->next;
             currptr->next = prevptr;
             prevptr = currptr;
             currptr = nextptr;
         }
+
+        head->next = tail;
+
         return prevptr;
     }
+
+public:
     ListNode *reverseBetween(ListNode *head, int left, int right)
     {
-        int len = 0;
-
-        ListNode *dummynode = new ListNode(1000);
-        ListNode *dummytemp = dummynode;
-
+        int l = 0;
         ListNode *temp = head;
+        ListNode *newHead = head;
+        ListNode *newTail = NULL;
+        ListNode *leftptr = NULL;
 
-        while (temp != NULL)
+        while (temp)
         {
-            len++;
-            if (len >= left && right >= len)
-            {
-                int data = temp->val;
-                dummytemp->next = new ListNode(data);
-                dummytemp = dummytemp->next;
-            }
+            l++;
+            if (l == left - 1)
+                leftptr = temp;
+            if (l == left)
+                newHead = temp;
+            if (l == right + 1)
+                newTail = temp;
             temp = temp->next;
         }
 
-        ListNode *reversedlist = reverse(dummynode->next);
-        // temp = reversedlist;
+        if (leftptr)
+            leftptr->next = reverse(newHead, newTail);
+        else
+            head = reverse(newHead, newTail);
 
-        // while (temp != NULL)
-        // {
-        //     if (temp->next->next == NULL)
-        //     {
-        //         temp->next = NULL;
-        //         break;
-        //     }
-        //     temp = temp->next;
-        // }
-
-        ListNode *finalList = new ListNode(-1000);
-        ListNode *temp1 = head;
-        ListNode *temp2 = reversedlist;
-        ListNode *maintemp = finalList;
-
-        len = 0;
-        int data;
-        while (temp1 != NULL)
-        {
-            len++;
-            if (len >= left && right >= len)
-            {
-                data = temp2->val;
-                maintemp->next = new ListNode(data);
-                temp2 = temp2->next;
-            }
-            else
-            {
-                data = temp1->val;
-                maintemp->next = new ListNode(data);
-            }
-            temp1 = temp1->next;
-            maintemp = maintemp->next;
-        }
-
-        return finalList->next;
+        return head;
     }
 };

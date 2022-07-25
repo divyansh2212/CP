@@ -1,3 +1,5 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -9,43 +11,37 @@ public:
     {
         vector<int> ans(2, -1);
 
-        int lo = 0, hi = nums.size() - 1, mid;
+        int lo = 0, n = nums.size(), hi = n - 1, mid;
 
         while (lo <= hi)
         {
-            mid = (hi + lo) / 2;
-
-            if (nums[mid] < target)
-                lo = mid + 1;
-            else if (nums[mid] == target)
+            mid = lo + ((hi - lo) / 2);
+            if (nums[mid] == target)
+            {
+                ans[0] = mid;
                 hi = mid - 1;
+            }
             else if (nums[mid] > target)
                 hi = mid - 1;
+            else
+                lo = mid + 1;
         }
-        if (hi >= 0 && hi < nums.size() && nums[hi] == target)
-            ans[0] = hi;
-        else if (lo >= 0 && lo < nums.size() && nums[lo] == target)
-            ans[0] = lo;
-        if (ans[0] == -1)
-            return ans;
 
-        hi = nums.size() - 1, lo = 0;
+        lo = 0, hi = n - 1;
 
         while (lo <= hi)
         {
-            mid = (hi + lo) / 2;
-
-            if (nums[mid] < target)
+            mid = lo + ((hi - lo) / 2);
+            if (nums[mid] == target)
+            {
+                ans[1] = mid;
                 lo = mid + 1;
-            else if (nums[mid] == target)
-                lo = mid + 1;
-            else
+            }
+            else if (nums[mid] > target)
                 hi = mid - 1;
+            else
+                lo = mid + 1;
         }
-        if (lo >= 0 && lo < nums.size() && nums[lo] == target)
-            ans[1] = lo;
-        else if (hi >= 0 && hi < nums.size() && nums[hi] == target)
-            ans[1] = hi;
 
         return ans;
     }
