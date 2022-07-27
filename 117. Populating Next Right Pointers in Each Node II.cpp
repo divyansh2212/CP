@@ -26,34 +26,44 @@ public:
 
 class Solution
 {
+    Node *find(Node *root)
+    {
+        if (root == NULL)
+            return NULL;
+        while (root)
+        {
+            if (root->left)
+                return root->left;
+            else if (root->right)
+                return root->right;
+            root = root->next;
+        }
+        return NULL;
+    }
     Node *construct(Node *root)
     {
-        if (root == NULL || (root->left == NULL && root->right == NULL))
+        if (root == NULL)
             return root;
 
         if (root->left)
         {
             if (root->right)
                 root->left->next = root->right;
-            else if (root->next)
+            else
             {
-                if (root->next->left)
-                    root->left->next = root->next->left;
-                else if (root->next->right)
-                    root->left->next = root->next->right;
+                Node *curr = root->next;
+                root->left->next = find(curr);
             }
         }
 
-        if (root->right && root->next)
+        if (root->right)
         {
-            if (root->next->left)
-                root->right->next = root->next->left;
-            else if (root->next->right)
-                root->right->next = root->next->right;
+            Node *curr = root->next;
+            root->right->next = find(curr);
         }
 
-        construct(root->left);
         construct(root->right);
+        construct(root->left);
 
         return root;
     }

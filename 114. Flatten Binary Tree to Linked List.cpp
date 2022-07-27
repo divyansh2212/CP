@@ -19,13 +19,13 @@ const int mod = 1e9 + 7;
  */
 class Solution
 {
-    TreeNode *prev = NULL;
-
 public:
+    TreeNode *prev = NULL;
     void flatten(TreeNode *root)
     {
         if (root == NULL)
             return;
+
         flatten(root->right);
         flatten(root->left);
 
