@@ -2,6 +2,11 @@
 using namespace std;
 #define ll long long
 
+ll get(ll x)
+{
+    return (x * (x + 1)) / 2;
+}
+
 int main()
 {
     int t;
@@ -9,30 +14,27 @@ int main()
     while (t--)
     {
         ll k, x, ans = 0;
-        cin >> k;
-        scanf("%lld", &x);
+        cin >> k >> x;
 
-        for (int i = 1; i <= k; i++)
+        ans = 2 * k - 1;
+
+        ll lo = 1, hi = 2 * k - 1, mid, flag = 0;
+
+        while (lo <= hi)
         {
-            x -= i;
-            ans++;
-            if (x <= 0)
-                break;
+            mid = (lo + hi) / 2;
+
+            if (mid <= k)
+                flag = (get(mid) >= x);
+            else
+                flag = (get(k) + get(k - 1) - get(2 * k - 1 - mid) >= x);
+
+            if (flag)
+                hi = mid - 1, ans = mid;
+            else
+                lo = mid + 1;
         }
 
-        if (x <= 0)
-        {
-            cout << ans << endl;
-            continue;
-        }
-
-        for (int i = k - 1; i >= 1; i--)
-        {
-            x -= i;
-            ans++;
-            if (x <= 0)
-                break;
-        }
         cout << ans << endl;
     }
     return 0;
