@@ -1,103 +1,78 @@
-// Jai Shree Babosa!
-
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define inf INT_MAX
-const int mod = 1e9 + 7;
-
-bool static cmp(vector<int> &a, vector<int> &b)
+#define int long long
+//#define endl "\n"
+#define mod 1000000007
+#define double long double
+//#define INT_MIN -1000000000000000
+#define INT_MAX 1e18
+bool cmp(pair<string, int> &p1, pair<string, int> &p2)
 {
-    if (a[0] == b[0])
-        return a[1] < b[1];
-    return a[0] < b[0];
+    if (p1.first.size() == p2.first.size())
+        return p1 < p2;
+    return p1.first.size() > p2.first.size();
 }
 
-void solve()
+signed main()
 {
-    string t;
-    cin >> t;
-
-    int n;
-    cin >> n;
-
-    vector<string> subs(n);
-    for (int i = 0; i < n; i++)
-        cin >> subs[i];
-
-    vector<vector<int>> groups;
-    for (int i = 0; i < n; i++)
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int tt = 1;
+    cin >> tt;
+    while (tt--)
     {
-        string s = subs[i];
-        int len = s.length(), k = 0;
-        while (k < t.length())
+        string t;
+        cin >> t;
+        int n;
+        cin >> n;
+        vector<pair<string, int>> v(n);
+        for (int i = 0; i < n; i++)
         {
-            if (s[0] != t[k])
-                k++;
-            else
-            {
-                string subtring = t.substr(k, len);
-                if (subtring == s)
-                    groups.push_back({k, k + len - 1, i});
-                k++;
-            }
+            cin >> v[i].first;
+            v[i].second = i;
         }
-    }
-
-    bool flag = true;
-    sort(groups.begin(), groups.end());
-    vector<vector<int>> ans;
-    if (groups.size() == 0)
-        flag = false;
-
-    int reqd = 0, i = 0;
-
-    int lastIdx = -1;
-    while (i < groups.size())
-    {
-        if (groups[i][0] > reqd)
+        sort(v.begin(), v.end(), cmp);
+        vector<pair<int, int>> ans;
+        int s = 0, prev = -1;
+        while (s < t.size())
         {
-            if (lastIdx == -1)
+            // cout<<s<<" "<<prev<<endl;
+            int curs = s;
+            while (curs > prev)
             {
-                flag = false;
+                bool flag = false;
+                int sz = t.size() - curs;
+                for (int i = 0; i < n; i++)
+                {
+                    if (v[i].first.size() > sz)
+                        continue;
+                    string test = t.substr(curs, v[i].first.size());
+                    if (test == v[i].first)
+                    {
+                        ans.push_back({v[i].second, curs});
+                        flag = true;
+                        prev = curs;
+                        s = curs + v[i].first.size();
+                        curs = -1;
+                        break;
+                    }
+                }
+                if (flag)
+                    break;
+                curs--;
+            }
+            if (curs == prev)
+            {
+                cout << -1 << endl;
                 break;
             }
-            else
-            {
-                ans.push_back({groups[lastIdx][2] + 1, groups[lastIdx][0] + 1});
-                reqd = groups[lastIdx][1] + 1;
-                lastIdx = -1;
-            }
         }
-        else
+        if (s == t.size())
         {
-            lastIdx = i;
-            if (i == groups.size() - 1)
-            {
-                ans.push_back({groups[lastIdx][2] + 1, groups[lastIdx][0] + 1});
-                reqd = groups[lastIdx][1] + 1;
-                if (reqd < t.length())
-                    flag = false;
-                lastIdx = -1;
-            }
+            cout << ans.size() << endl;
+            for (int i = 0; i < ans.size(); i++)
+                cout << ans[i].first + 1 << " " << ans[i].second + 1 << endl;
         }
-        i++;
     }
-
-    if (flag == false)
-        cout << -1 << endl;
-    else
-    {
-        cout << ans.size() << endl;
-        for (int i = 0; i < ans.size(); i++)
-            cout << ans[i][0] << " " << ans[i][1] << endl;
-    }
-}
-int main()
-{
-    int t;
-    cin >> t;
-    while (t--)
-        solve();
-    return 0;
 }

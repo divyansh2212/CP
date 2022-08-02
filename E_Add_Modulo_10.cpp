@@ -17,13 +17,19 @@ void solve()
     {
         cin >> arr[i];
         if (arr[i] % 5 == 0)
+        {
             isFive = true;
+            arr[i] = arr[i] + (arr[i] % 10);
+        }
+        else
+            while (arr[i] % 10 != 2)
+                arr[i] = arr[i] + (arr[i] % 10);
     }
 
     if (isFive)
     {
-        for (int i = 0; i < n; i++)
-            if (arr[i] % 5)
+        for (int i = 1; i < n; i++)
+            if (arr[i] != arr[i - 1])
                 isFive = false;
         if (isFive)
             cout << "Yes\n";
@@ -31,6 +37,15 @@ void solve()
             cout << "No\n";
         return;
     }
+
+    bool flag = true;
+    for (int i = 1; i < n; i++)
+        if (abs(arr[i] - arr[i - 1]) % 20)
+            flag = false;
+    if (flag)
+        cout << "Yes\n";
+    else
+        cout << "No\n";
 }
 int main()
 {
