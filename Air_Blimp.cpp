@@ -8,58 +8,31 @@ const int mod = 1e9 + 7;
 
 void solve()
 {
-    ll n, x, y, mx = INT_MIN;
+    ll n, x, y, mx = -1;
     cin >> n >> x >> y;
 
     vector<ll> arr(n);
-    vector<ll> special;
     for (int i = 0; i < n; i++)
     {
         cin >> arr[i];
         mx = max(mx, arr[i]);
-        if (arr[i] > y)
-            special.push_back(arr[i]);
     }
 
-    if (y >= x || special.size() == 0)
+    if (y >= x)
     {
-        ll ans = mx / y;
-        ans += (mx % y);
+        ll ans = ceil((mx * 1.0) / y);
         cout << ans << endl;
     }
 
     else
     {
         ll ans = 0;
-        int idx = 0;
-        bool flag = false;
-        while (!special.empty())
+        for (int i = n - 1; i >= 0; i--)
         {
-            ll num = special.back();
-            special.pop_back();
-            num -= (idx * y);
-
-            if (num <= y)
-            {
-                if (num > 0)
-                    flag = true;
-                continue;
-            }
-
-            int curr = 0;
-            curr += (num - y) / x;
-            if ((num - y) % x)
-                curr++;
-
-            idx += curr;
-            num -= (curr * x);
-            if (num > 0)
-                flag = true;
-
-            ans += curr;
+            arr[i] -= (ans * y);
+            if (arr[i] > 0)
+                ans += ceil((arr[i] * 1.0) / x);
         }
-        if (flag)
-            ans++;
         cout << ans << endl;
     }
 }
