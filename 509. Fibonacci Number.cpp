@@ -1,22 +1,18 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
-int dp[1000];
 
-int fibnocaai(int n)
+class Solution
 {
-    if (n == 0)
-        return 0;
-    if (n == 1)
-        return 1;
-    if (dp[n] != -1)
+public:
+    int fib(int n)
+    {
+        vector<int> dp(33, -1);
+        dp[0] = 0, dp[1] = 1;
+        for (int i = 2; i <= n; i++)
+            dp[i] = dp[i - 1] + dp[i - 2];
+
         return dp[n];
-    int last = fibnocaai(n - 1);
-    int scndlast = fibnocaai(n - 2);
-    return dp[n] = last + scndlast;
-}
-
-int fib(int n)
-{
-    memset(dp, -1, sizeof(dp));
-    return fibnocaai(n);
-}
+    }
+};

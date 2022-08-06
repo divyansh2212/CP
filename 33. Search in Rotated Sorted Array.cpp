@@ -3,36 +3,41 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
 class Solution
 {
 public:
     int search(vector<int> &nums, int target)
     {
-        int n = nums.size(), s = 0, e = n - 1, mid;
+        int n = nums.size(), lo = 0, hi = n - 1, mid;
 
-        while (s <= e)
+        while (lo <= hi)
         {
-            mid = e + (s - e) / 2;
+            mid = lo + (hi - lo) / 2;
             if (nums[mid] == target)
                 return mid;
-
-            if (nums[s] <= nums[mid])
+            if (nums[lo] == target)
+                return lo;
+            if (nums[hi] == target)
+                return hi;
+            if (nums[lo] < nums[mid])
             {
-                if (nums[s] <= target && target <= nums[mid])
-                    e = mid - 1;
+                if (target >= nums[lo] && target < nums[mid])
+                    hi = mid - 1;
                 else
-                    s = mid + 1;
+                    lo = mid + 1;
             }
-
             else
             {
-                if (nums[mid] <= target && target <= nums[e])
-                    s = mid + 1;
+                if (target > nums[mid] && target <= nums[hi])
+                    lo = mid + 1;
                 else
-                    e = mid - 1;
+                    hi = mid - 1;
             }
         }
+
         return -1;
     }
 };

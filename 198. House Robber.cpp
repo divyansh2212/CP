@@ -1,23 +1,23 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
 
-int dp[500];
-
-int func(vector<int> &nums, int idx)
+class Solution
 {
-    if (idx >= nums.size())
-        return 0;
-    if (dp[idx] != -1)
-        return dp[idx];
+public:
+    int rob(vector<int> &nums)
+    {
+        int n = nums.size();
+        int prev = nums[n - 1], prev2 = 0;
 
-    int total_money = max(func(nums, idx + 2) + nums[idx], func(nums, idx + 1));
+        for (int i = n - 2; i >= 0; i--)
+        {
+            int rob = nums[i] + prev2, notrob = prev;
+            int curr = max(rob, notrob);
+            prev2 = prev, prev = curr;
+        }
 
-    return dp[idx] = total_money;
-}
-
-int rob(vector<int> &nums)
-{
-    memset(dp, -1, sizeof(dp));
-
-    return func(nums, 0);
-}
+        return prev;
+    }
+};

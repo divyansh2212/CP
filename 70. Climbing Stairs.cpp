@@ -1,24 +1,25 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
-int dp[50];
+#define ll long long
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
-int helper(int curr, int n)
+class Solution
 {
-    if (curr == n)
-        return 1;
-    if (curr > n)
-        return 0;
-    if (dp[curr] != -1)
-        return dp[curr];
+public:
+    int climbStairs(int n)
+    {
+        int prev = 1, prev2 = 0;
 
-    int ways = helper(curr + 1, n);
-    ways += helper(curr + 2, n);
+        for (int i = 1; i <= n; i++)
+        {
+            int curr = prev2 + prev;
+            prev2 = prev;
+            prev = curr;
+        }
 
-    return dp[curr] = ways;
-}
-
-int climbStairs(int n)
-{
-    memset(dp, -1, sizeof(dp));
-    return helper(0, n);
-}
+        return prev;
+    }
+};
