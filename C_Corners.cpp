@@ -15,57 +15,49 @@ void solve()
     for (int i = 0; i < n; i++)
         cin >> arr[i];
 
-    int ops = 0;
-    for (int i = 0; i < arr[0].length(); i++)
+    int ops = 0, flag = 0;
+
+    for (int i = 0; i < n; i++)
     {
-        if (arr[0][i] == '1')
+        for (int j = 0; j < m; j++)
         {
-            if (i == 0)
-            {
-                if ((arr[0][i + 1] == '0' && arr[1][i] == '0') || (arr[0][i + 1] == '0' && arr[1][i + 1] == '0'))
-                    ops++;
-                else if (arr[0][i + 1] == '0' && arr[1][i] == '1')
-                    arr[1][i] = '0', ops++;
-                else if (arr[0][i + 1] == '0' && arr[1][i + 1] == '1')
-                    arr[1][i + 1] = '0', ops++;
-                else if (arr[0][i + 1] == '1' && arr[1][i] == '0')
-                    ops++, arr[0][i + 1] = '0';
-                else if (arr[0][i + 1] == '1' && arr[1][i + 1] == '0')
-                    arr[0][i + 1] = '0', ops++;
-                else
-                    ops++, arr[0][i + 1] = '0', arr[1][i] = '0';
-            }
-            else if (i == m - 1)
-            {
-                if ((arr[0][i - 1] == '0' && arr[1][i] == '0') || (arr[0][i - 1] == '0' && arr[1][i - 1] == '0'))
-                    ops++;
-                else if (arr[0][i - 1] == '1' && arr[1][i] == '0')
-                    ops++, arr[0][i - 1] = '0';
-                else if (arr[0][i - 1] == '0' && arr[1][i] == '1')
-                    arr[1][i] = '0', ops++;
-                else if (arr[0][i - 1] == '1' && arr[1][i - 1] == '0')
-                    arr[0][i - 1] = '0', ops++;
-                else if (arr[0][i - 1] == '0' && arr[1][i - 1] == '1')
-                    arr[1][i - 1] = '0', ops++;
-                else
-                    ops++, arr[0][i - 1] = '0', arr[1][i] = '0';
-            }
+            if (arr[i][j] == '1')
+                ops++;
             else
-            {
-                if (arr[1][i] == '0' || arr[1][i - 1] == '0')
-                    ops++;
-                else if (arr[0][i + 1] == '0')
-                    ops++, arr[1][i + 1] = '0';
-                else
-                    ops++, arr[1][i] = '0';
-            }
+                flag = 1;
         }
     }
 
-    for (int i = 1; i < n; i++)
-        for (int j = 0; j < m; j++)
-            if (arr[i][j] == '1')
-                ops++;
+    if (flag)
+    {
+        flag = 0;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                if (arr[i][j] == '0')
+                {
+                    for (int di = -1; di <= 1; di++)
+                    {
+                        for (int dj = -1; dj <= 1; dj++)
+                        {
+                            if (di == 0 && dj == 0)
+                                continue;
+                            int x = i + di, y = j + dj;
+                            if (x >= 0 && x < n && y >= 0 && y < m && arr[x][y] == '0')
+                                flag = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (flag == 0)
+            ops--;
+    }
+    
+    else
+        ops -= 2;
 
     cout << ops << endl;
 }
