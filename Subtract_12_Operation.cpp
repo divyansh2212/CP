@@ -22,11 +22,12 @@ void solve()
             ll to_sub = arr[i] / 2;
             arr[i - 1] -= to_sub;
             arr[i] -= (2 * to_sub);
-
-            if (arr[i] == 1 && arr[i - 1] > 0)
-                arr[i] = -1, arr[i - 1]--;  
         }
     }
+
+    for (int i = n - 1; i > 0; i--)
+        if (arr[i] > 0 && arr[i - 1] > 0)
+            arr[i] -= 2, arr[i - 1]--;
 
     ll ans = 0;
     for (int i = 0; i < n; i++)
