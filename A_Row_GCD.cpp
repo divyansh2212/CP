@@ -10,21 +10,18 @@ int main()
     cin >> n >> m;
 
     vector<ll> a(n), b(m);
+    ll gcds = 0;
     for (int i = 0; i < n; i++)
-        cin >> a[i];
-    for (int i = 0; i < m; i++)
-        cin >> b[i];
-
-    vector<ll> ans(m);
-    for (int i = 0; i < m; i++)
     {
-        ans[i] = a[0] + b[i];
-        for (int j = 1; j < n; j++)
-            ans[i] = __gcd(ans[i], a[j] + b[i]);
+        cin >> a[i];
+        if(i > 0)
+            gcds = __gcd(gcds, abs(a[i] - a[i - 1]));
     }
     for (int i = 0; i < m; i++)
-        cout << ans[i] << " ";
-    cout << endl;
+        cin >> b[i];
+    
+    for (int i = 0; i < m; i++)
+        cout << __gcd(gcds, a[0] + b[i]) << " ";
 
     return 0;
 }

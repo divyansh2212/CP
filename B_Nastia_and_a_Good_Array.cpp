@@ -3,28 +3,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-const int M = 1e9 + 7;
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
+void solve()
+{
+    int n;
+    cin >> n;
+
+    vector<int> arr(n + 1);
+    for (int i = 1; i <= n; i++)
+        cin >> arr[i];
+
+    cout << n / 2 << endl;
+    for (int i = 2; i <= n; i += 2)
+        cout << i - 1 << " " << i << " " << min(arr[i], arr[i - 1]) << " " << mod << endl;
+}
 int main()
 {
     int t;
     cin >> t;
     while (t--)
-    {
-        ll n;
-        cin >> n;
-
-        vector<ll> arr(n);
-        for (ll i = 0; i < n; i++)
-            cin >> arr[i];
-
-        cout << n / 2 << endl;
-        for (int i = 0; i < n - 1; i += 2)
-        {
-            arr[i] = min(arr[i], arr[i + 1]);
-            arr[i + 1] = M;
-            cout << i + 1 << " " << i + 2 << " " << arr[i] << " " << M << endl;
-        }
-    }
+        solve();
     return 0;
 }
