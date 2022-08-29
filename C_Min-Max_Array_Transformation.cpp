@@ -11,7 +11,7 @@ void solve()
     int n;
     cin >> n;
 
-    vector<ll> a(n), b(n);
+    vector<ll> a(n), b(n), dmin(n), dmax(n);
 
     vector<int> groups[n];
 
@@ -21,34 +21,25 @@ void solve()
     for (int i = 0; i < n; i++)
         cin >> b[i];
 
-    vector<ll> dmin(n);
-
-    int bi = 0, ai = 0;
-    while (ai < n)
-    {
-        if (b[bi] - a[ai] >= 0)
-        {
-            dmin[ai] = b[bi] - a[ai];
-            groups[bi].push_back(ai);
-            ai++;
-        }
-        else
-            bi++;
-    }
-
-    vector<ll> dmax(n);
+    list<ll> numbers;
+    int bptr = n - 1;
 
     for (int i = n - 1; i >= 0; i--)
     {
-        if (groups[i].size() == 1)
+        while (bptr >= 0 && b[bptr] >= a[i])
         {
-            dmax[i] = b[i] - a[groups[i][0]];
+            numbers.push_back(b[bptr]);
+            bptr--;
         }
-        else
+
+        dmin[i] = numbers.back() - a[i];
+        dmax[i] = numbers.front() - a[i];
+
+        ll a_used = n - i, b_used = n - (bptr + 1);
+
+        if (a_used == b_used)
         {
-            for (int j = i; j >= 0; j--)
-                dmax[j] = b[i] - a[j];
-            break;
+            numbers.clear();
         }
     }
 
