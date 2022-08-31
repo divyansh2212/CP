@@ -14,105 +14,41 @@ void solve()
     string s;
     cin >> s;
 
-    // ll i = 0, j = n - 1, k;
-    // ll curr = 0;
-    // while (i <= j)
-    // {
-    //     if (s[i] == 'R')
-    //         curr += (n - i - 1);
-    //     else if (s[i] == 'L')
-    //         curr += i;
-    //     if (i == j)
-    //         break;
-    //     if (s[j] == 'R')
-    //         curr += (n - j - 1);
-    //     else if (s[j] == 'L')
-    //         curr += j;
-    //     i++, j--;
-    // }
-
-    // vector<ll> ans(n, curr);
-
-    // i = 0, j = n - 1, k = 1, curr = 0;
-    // while (i <= j)
-    // {
-    //     if (s[i] == 'L' && s[j] == 'R' && (i <= (n / 2) - 1) && (j >= n / 2))
-    //     {
-    //         if (n - 1 - j < i)
-    //         {
-    //             curr += (j - (n - 1 - j));
-    //             ans[k - 1] += curr;
-    //             k++, j--;
-    //         }
-    //         else
-    //         {
-    //             curr += (n - 1 - i - i);
-    //             ans[k - 1] += curr;
-    //             k++, i++;
-    //         }
-    //     }
-    //     else if (s[i] == 'L' && i <= (n / 2) - 1)
-    //     {
-    //         curr += (n - 1 - i - i);
-    //         ans[k - 1] += curr;
-    //         k++, i++;
-    //     }
-    //     else if (s[j] == 'R' && j >= n / 2)
-    //     {
-    //         curr += (j - (n - 1 - j));
-    //         ans[k - 1] += curr;
-    //         k++, j--;
-    //     }
-    //     else if (j < n / 2)
-    //         i++;
-    //     else if (i > (n / 2 - 1))
-    //         j--;
-    //     else
-    //         i++, j--;
-    // }
-
-    // for (ll i = k; i <= n; i++)
-    //     ans[i - 1] += curr;
-    if (n % 2)
-        s[n / 2] = 'L';
-
-    string ideal = s;
-    int i = 0, wrong = 0, j = n - 1;
-    while (i <= (n / 2) - 1)
+    ll ans = 0;
+    for (int i = 0; i < n; i++)
     {
-        ideal[i] = 'R';
-        if (s[i] != ideal[i])
-            wrong++;
-        i++;
+        if (s[i] == 'L')
+            ans += i;
+        else
+            ans += (n - 1 - i);
     }
 
-    i = (n / 2);
-    while (i < n)
-    {
-        ideal[i] = 'L', i++;
-        if (s[i] != ideal[i])
-            wrong++;
-        i++;
-    }
+    int lower = n / 2, upper = (n / 2) - ((n + 1) % 2);
+    int l = 0, r = n - 1;
 
-    vector<ll> ans(n + 1, 0);
-    ll maxm = 0, curr = n - 1;
-    while (i <= j)
+    for (int i = 1; i <= n; i++)
     {
-        if (i == j)
+        while (l < lower && s[l] == 'R')
+            l++;
+        while (r > upper && s[r] == 'L')
+            r--;
+
+        ll profitL = (n - 1 - l) - l;
+        ll profitR = r - (n - 1 - r);
+
+        if (profitL < 0 && profitR < 0)
         {
-            maxm += curr;
-            break;
+            cout << ans << " ";
+            continue;
         }
-        maxm += (2 * curr);
-        curr--, i++, j--;
+
+        if (profitL < profitR)
+            ans += profitR, r--;
+        else
+            ans += profitL, l++;
+
+        cout << ans << " ";
     }
-
-    for (int i = wrong; i <= n; i++)
-        ans[i] = maxm;
-
-    for (ll i = 1; i <= n; i++)
-        cout << ans[i] << " ";
     cout << endl;
 }
 int main()
