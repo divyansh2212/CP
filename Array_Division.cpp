@@ -1,74 +1,54 @@
+// Jai Shree Babosa!
+
 #include <bits/stdc++.h>
 using namespace std;
-vector<pair<int, int>> curr;
-vector<vector<pair<int, int>>> all;
+#define ll long long
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
-void subSequences(vector<int> &arr, int idx)
+bool isPossible(ll mid, vector<ll> &arr, int &k)
 {
-    if (idx == arr.size())
+    ll currSum = 0, currCnt = 1;
+    for (int i = 0; i < arr.size(); i++)
     {
-        all.push_back(curr);
-        curr.clear();
-        return;
+        if (arr[i] > mid || currCnt > k)
+            return false;
+        if (currSum + arr[i] > mid)
+            currCnt++, currSum = arr[i];
+        else
+            currSum += arr[i];
     }
-
-    subSequences(arr, idx + 1);
-
-    curr.push_back({arr[idx], idx});
-
-    subSequences(arr, idx + 1);
+    return (k >= currCnt);
 }
 
+void solve()
+{
+    int n, k;
+    cin >> n >> k;
+
+    vector<ll> arr(n);
+    ll sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+        sum += arr[i];
+    }
+
+    ll lo = arr[n - 1], hi = sum, ans = hi, mid;
+
+    while (lo <= hi)
+    {
+        mid = lo + (hi - lo) / 2;
+        if (isPossible(mid, arr, k))
+            ans = mid, hi = mid - 1;
+        else
+            lo = mid + 1;
+    }
+
+    cout << ans;
+}
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        int n;
-        cin >> n;
-        all.clear();
-        curr.clear();
-
-        vector<int> arr(n);
-        for (int i = 0; i < n; i++)
-            cin >> arr[i];
-
-        subSequences(arr, 0);
-
-        vector<pair<int, int>> fst_arr;
-        int size = INT_MAX, sum = 0;
-
-        for (int i = 0; i < all.size(); i++)
-        {
-            int curr_sum = 0;
-            for (int j = 1; j < all[i].size(); j++)
-                curr_sum += abs(all[i][j].first - all[i][j - 1].first);
-            if (curr_sum >= sum && size > all[i].size())
-                sum = curr_sum, size = all[i].size(), fst_arr = all[i];
-        }
-
-        for (int i = 0; i < fst_arr.size(); i++)
-        {
-            cout << fst_arr[i].first << " ";
-        }
-        cout << endl;
-
-        // vector<bool> visited(n, false);
-        // for (int i = 0; i < fst_arr.size(); i++)
-        //     visited[fst_arr[i].second] = true;
-
-        // vector<int> scnd_arr;
-        // for (int i = 0; i < n; i++)
-        // {
-        //     if (visited[i])
-        //         continue;
-        //     scnd_arr.push_back(arr[i]);
-        // }
-        // for (int i = 1; i < scnd_arr.size(); i++)
-        //     sum += abs(scnd_arr[i] - scnd_arr[i - 1]);
-
-        // cout << sum << endl;
-    }
+    solve();
     return 0;
 }
