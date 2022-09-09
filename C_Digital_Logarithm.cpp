@@ -14,7 +14,7 @@ void solve()
     int ans = 0;
 
     vector<int> a(10, 0), b(10, 0);
-    unordered_map<int, int> mp;
+    map<int, int> mp;
 
     for (int i = 0; i < n; i++)
     {
@@ -38,14 +38,10 @@ void solve()
 
     for (auto &it : mp)
     {
-        while (it.second > 0)
-        {
-            if (it.first > 9)
-                ans++, a[(int)log10(it.first) + 1]++;
-            else
-                a[it.first]++;
-            it.second--;
-        }
+        if (it.first > 9)
+            ans += it.second, a[(int)log10(it.first) + 1] += it.second;
+        else
+            a[it.first] += it.second;
     }
 
     for (int i = 2; i < 10; i++)
