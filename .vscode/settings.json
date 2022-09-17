@@ -28,7 +28,8 @@
         "cmath": "cpp",
         "complex": "cpp",
         "map": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "bitset": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
