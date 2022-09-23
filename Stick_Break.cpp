@@ -8,19 +8,19 @@ const int mod = 1e9 + 7;
 
 void solve()
 {
-    ll n, k;
-    cin >> n >> k;
+    ll l, k;
+    cin >> l >> k;
 
-    vector<ll> arr(n);
-    for (int i = 0; i < n; i++)
-        cin >> arr[i];
-
-    
-    cout << ans;
+    if (l % k == 0)
+        cout << 0 << "\n";
+    else
+        cout << 1 << "\n";
 }
- 
 int main()
 {
-    solve();
+    int t;
+    cin >> t;
+    while (t--)
+        solve();
     return 0;
 }
