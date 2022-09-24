@@ -15,29 +15,41 @@ void solve()
     for (int i = 1; i <= n; i++)
         cin >> arr[i];
 
-    ll maxm = 0, idx = 0;
+    multiset<int> st;
     for (int i = 1; i <= n - 1; i++)
-        if (arr[i] > arr[i + 1] && arr[i] - arr[i + 1] > maxm)
-            maxm = arr[i] - arr[i + 1], idx = i;
+        st.insert(arr[i + 1] - arr[i]);
 
     while (q--)
     {
         int i, x;
         cin >> i >> x;
 
-        // ll prev = arr[i];
-        arr[i] = x;
-
-        if (i == idx || i == idx + 1)
+        if (i + 1 <= n)
         {
-            maxm = 0;
-            ll maxm = 0, idx = 0;
-            for (int j = 1; j <= n - 1; j++)
-                if (arr[j] > arr[j + 1] && arr[j] - arr[j + 1] > maxm)
-                    maxm = arr[j] - arr[j + 1], idx = j;
+            auto it = st.find(arr[i + 1] - arr[i]);
+            if (it != st.end())
+                st.erase(it);
+        }
+        if (i - 1 >= 1)
+        {
+            auto it = st.find(arr[i] - arr[i - 1]);
+            if (it != st.end())
+                st.erase(it);
         }
 
-        cout << maxm << "\n";
+        arr[i] = x;
+
+        if (i + 1 <= n)
+            st.insert(arr[i + 1] - arr[i]);
+        if (i - 1 >= 1)
+            st.insert(arr[i] - arr[i - 1]);
+
+        int val = *st.begin();
+
+        if (val < 0)
+            cout << abs(val) << "\n";
+        else
+            cout << 0 << "\n";
     }
 }
 int main()
