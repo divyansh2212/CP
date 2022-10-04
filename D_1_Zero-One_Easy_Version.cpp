@@ -7,7 +7,7 @@ using namespace std;
 const int mod = 1e9 + 7;
 
 void solve()
-{   
+{    
     ll n, x, y;
     cin >> n >> x >> y;
 

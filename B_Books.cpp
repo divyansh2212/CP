@@ -1,56 +1,38 @@
-// Jai Shree Babosa!
+// <--------------------Jai Shree Babosa-------------------->
 
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define inf INT_MAX
+const int mod = 1e9 + 7;
 
-int main()
+void solve()
 {
-    ll n, t;
+    int n, t;
     cin >> n >> t;
-
-    vector<int> times(n);
+    vector<ll> times(n);
     for (int i = 0; i < n; i++)
         cin >> times[i];
 
-    ll maxmBooks = 0;
+    ll currTime = 0, i = 0, j = 0, ans = 0;
 
-    vector<ll> forward(n + 1, 0);
-    forward[0] = 0;
-
-    for (int i = 1; i < n + 1; i++)
+    while (j < n)
     {
-        forward[i] = forward[i - 1] + times[i - 1];
-        if (forward[i] <= t)
-            maxmBooks = i;
+        currTime += times[j];
+        if (currTime > t)
+        {
+            ans = max(ans, j - 1 - i + 1);
+            currTime -= times[i];
+            i++;
+        }
+        else
+            ans = max(ans, j - i + 1);
+        j++;
     }
-
-    for (int i = 1; i < n + 1; i++)
-    {
-        ll to_sub = forward[i];
-        ll lo = i + 1, hi = n, mid;
-
-        while (lo <= hi)
-        {
-            mid = lo + (hi - lo) / 2;
-            if (forward[mid] - to_sub > t)
-                hi = mid - 1;
-            else
-                lo = mid + 1;
-        }
-        if (lo >= 1 && lo <= n)
-        {
-            if (forward[lo] - to_sub <= t)
-                maxmBooks = max(maxmBooks, lo - i);
-        }
-        if (hi >= 1 && hi <= n)
-        {
-            if (forward[hi] - to_sub <= t)
-                maxmBooks = max(maxmBooks, hi - i);
-        }
-    }
-
-    cout << maxmBooks;
-
+    cout << ans;
+}
+int main()
+{
+    solve();
     return 0;
 }
