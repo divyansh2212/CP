@@ -6,34 +6,29 @@ using namespace std;
 #define inf INT_MAX
 const int mod = 1e9 + 7;
 
-bool static comparator(vector<int> &a, vector<int> &b)
-{
-    return a[1] < b[1];
-}
-
 void solve()
 {
     int n;
     cin >> n;
 
-    vector<vector<int>> pairs(n, vector<int>(2));
+    vector<pair<int, int>> pairs;
 
     for (int i = 0; i < n; i++)
-        cin >> pairs[i][0] >> pairs[i][1];
-
-    sort(pairs.begin(), pairs.end(), comparator);
-    int ans = 1, curr = 1, i = 1;
-
-    while (i < n)
     {
-        if (pairs[i - 1][1] > pairs[i][0])
-            curr++;
-        else
-            curr = 1;
-        ans = max(ans, curr);
-        i++;
+        int x, y;
+        cin >> x >> y;
+        pairs.push_back({x, 1});
+        pairs.push_back({y, -1});
     }
 
+    sort(pairs.begin(), pairs.end());
+
+    int ans = 0, curr = 0;
+    for (int i = 0; i < pairs.size(); i++)
+    {
+        curr += pairs[i].second;
+        ans = max(ans, curr);
+    }
     cout << ans;
 }
 int main()
