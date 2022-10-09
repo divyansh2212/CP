@@ -12,12 +12,10 @@ void solve()
     cin >> l >> r;
 
     ll ans = 0;
-    for (ll i = l; i < r + 1; i++)
-    {
-        ll sqt = sqrt(i);
-        if (i % sqt == 0)
-            ans++;
-    }
+    ll lsqrt = sqrt(l), rsqrt = sqrt(r);
+
+    
+
     cout << ans << "\n";
 }
 int main()
