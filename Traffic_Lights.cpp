@@ -11,19 +11,20 @@ void solve()
     int x, n, p;
     cin >> x >> n;
 
-    vector<int> positions;
-    positions.push_back(0);
-    positions.push_back(x);
-    set<int> st;
+    set<int> positions;
+    positions.insert(0);
+    positions.insert(x);
+    multiset<int> st;
     st.insert(x);
     for (int i = 0; i < n; i++)
     {
-        cin >> p;
-        int idx1 = upper_bound(positions.begin(), positions.end(), p) - positions.begin();
-        int idx2 = idx1 - 1;
-        auto it = st.find(positions[idx1] - positions[idx2]);
-        positions.push_back(p);
-        sort(positions.begin(), positions.end());
+        cin >> p;   
+        auto it1 = positions.upper_bound(p);
+        int idx1 = *it1;
+        auto it2 = --it1;
+        int idx2 = *it2;
+        auto it = st.find(idx1 - idx2);
+        positions.insert(p);
         st.erase(it);
         st.insert(idx1 - p);
         st.insert(p - idx2);
