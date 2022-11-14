@@ -1,1 +1,0 @@
-{"name":"Local: N Queens Puzzle Solved ! ","url":"c:\\Codes\\Practice\\N Queens Puzzle Solved ! .cpp","tests":[{"id":1643969523340,"input":"3\n4\n10\n15","output":"0\n36\n93629"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\N Queens Puzzle Solved ! .cpp","group":"local","local":true}

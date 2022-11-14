@@ -1,1 +1,0 @@
-{"name":"Local: A","url":"c:\\Codes\\Practice\\A. Divide and Multiply.cpp","tests":[{"id":1641641997412,"input":"5\n3\n6 4 2\n5\n1 2 3 4 5\n1\n10\n3\n2 3 4\n15\n16 16 16 16 16 16 16 16 16 16 16 16 16 16 16","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\A. Divide and Multiply.cpp","group":"local","local":true}

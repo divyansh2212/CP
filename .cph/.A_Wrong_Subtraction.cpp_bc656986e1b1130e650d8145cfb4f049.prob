@@ -1,1 +1,0 @@
-{"name":"Local: A_Wrong_Subtraction","url":"c:\\Codes\\Practice\\A_Wrong_Subtraction.cpp","tests":[{"id":1643024458299,"input":"512 4","output":"50"},{"id":1643024477940,"input":"1000000000 9","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\Practice\\A_Wrong_Subtraction.cpp","group":"local","local":true}
