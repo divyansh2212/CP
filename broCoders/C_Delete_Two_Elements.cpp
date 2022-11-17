@@ -24,6 +24,7 @@ void solve()
         return;
     }
     sum /= n;
+    
     int i = 0;
 
     map<int, int> mp;
